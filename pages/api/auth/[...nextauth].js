@@ -20,16 +20,20 @@ export default NextAuth({
   },
   providers: [
     CredentialsProvider({
-      name: 'Credentials',
+      name: 'credentials',
       async authorize(credentials, req) {
         const { username, password } = req.body;
+
+        if (username === 'facebook' || username === 'google') {
+          throw new Error('Tài khoản không tồn tại!');
+        }
 
         const user = await User.findOne({
           username,
         });
 
         if (!user) {
-          throw new Error('Vui lòng đăng nhập bằng cách khác.');
+          throw new Error('Tài khoản không tồn tại!');
         }
 
         return loginUser({ password, user });
@@ -49,20 +53,58 @@ export default NextAuth({
     error: '/login',
   },
   callbacks: {
-    session: async (session, user) => {
-      console.log(user);
+    session: async ({ session, user }) => {
+      if (session) {
+        let newUser;
+        if (!session.user.image) {
+          newUser = await User.findOne({
+            email: session.user.email,
+            username: { $nin: ['google', 'facebook'] },
+          }).select('-password');
+        } else {
+          if (session.user.image.includes('google')) {
+            newUser = await User.findOne({
+              email: session.user.email,
+              username: 'google',
+            }).select('-password');
+          } else {
+            newUser = await User.findOne({
+              email: session.user.email,
+              username: 'facebook',
+            }).select('-password');
+          }
+        }
+        session.user = newUser;
+      }
 
-      session = user;
-      return Promise.resolve(session);
+      return session;
+    },
+    signIn: async ({ user, account, profile, email, credentials }) => {
+      if (account.provider !== 'credentials') {
+        let newUser = await User.findOne({
+          username: account.provider,
+          email: user.email,
+        });
+
+        if (!newUser) {
+          const newPassword = await bcrypt.hash('123456', 12);
+          newUser = new User({
+            name: user.name,
+            username: account.provider,
+            email: user.email,
+            password: newPassword,
+          });
+
+          await newUser.save();
+        }
+      }
+
+      return true;
     },
   },
 });
 
 const loginUser = async ({ password, user }) => {
-  if (!user.password) {
-    throw new Error('Vui lòng đăng nhập bằng cách khác.');
-  }
-
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
     throw new Error('Mật khẩu nhập sai.');

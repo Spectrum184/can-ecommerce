@@ -6,8 +6,6 @@ export const connectDB = () => {
     return;
   }
 
-  console.log(process.env.MONGODB_URL);
-
   mongoose.connect(
     process.env.MONGODB_URL,
     {

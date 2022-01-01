@@ -1,37 +1,87 @@
-import React from 'react';
+import Head from 'next/head';
+import Link from 'next/link';
 
-const Login = () => {
-  const onSubmit = () => {};
+import { useState, useEffect } from 'react';
+import { getCsrfToken, signIn, useSession } from 'next-auth/react';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
+
+const Login = ({ csrfToken }) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const { data } = useSession();
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (data) router.push('/');
+  }, [data, router]);
+
+  const loginWithCredential = async (e) => {
+    e.preventDefault();
+
+    if (!username || !password) {
+      toast.error('Vui lòng điền đầy đủ các ô');
+      return;
+    }
+
+    const res = await signIn('credentials', {
+      redirect: false,
+      username,
+      password,
+    });
+
+    if (res.error) toast.error(res.error);
+  };
+
+  const loginWithGoogle = async (e) => {
+    e.preventDefault();
+    await signIn('google');
+  };
+
+  const loginWithFacebook = async (e) => {
+    e.preventDefault();
+    await signIn('facebook');
+  };
 
   return (
-    <div className="flex flex-col justify-center items-center w-full min-h-screen">
+    <div className="flex flex-col justify-center items-center w-full h-full">
+      <Head>
+        <title>Đăng nhập</title>
+      </Head>
       <div className="bg-white sm:shadow-lg px-8 pb-6 w-full sm:w-8/12 md:w-7/12 xl:w-2/6 text-center rounded-sm">
         <div className="text-center w-full font-bold text-3xl text-gray-600 p-4">
           ĐĂNG NHẬP
         </div>
         <div className="w-full bg-gray-200" style={{ height: '1px' }}></div>
-        <form method="POST" onSubmit={onSubmit}>
-          <div className="flex flex-col gap-4 px-0 py-4">
+
+        <div className="flex flex-col gap-4 px-0 py-4">
+          <form method="POST" onSubmit={loginWithCredential}>
+            <input type="hidden" name="csrfToken" defaultValue={csrfToken} />
             <div>
               <label className="text-gray-700">Tên đăng nhập</label>
               <input
                 className="py-2 px-2 border border-gray-200 w-full"
                 placeholder="Tên đăng nhập"
                 type="text"
-                required
+                autoFocus
+                autoComplete="username"
+                value={username.toLowerCase().replace(/ /g, '')}
+                onChange={(e) => setUsername(e.target.value)}
               />
             </div>
             <div>
               <label className="text-gray-700">Mật khẩu</label>
               <input
                 className="py-2 px-2 border border-gray-200 w-full"
-                placeholder="Password"
+                placeholder="Mật khẩu"
                 type="password"
-                required
                 autoComplete="password"
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
               />
             </div>
-            <div className="w-full flex flex-row gap-2">
+            <div className="w-full flex flex-row gap-2 mt-2">
               <button
                 className="border border-indigo-500 hover:bg-indigo-500 hover:text-white duration-100 ease-in-out w-6/12 text-indigo-500 p-0 flex flex-row justify-center items-center gap-1"
                 type="submit"
@@ -52,32 +102,37 @@ const Login = () => {
                 </svg>
                 Đăng nhập
               </button>
-              <button className="border border-indigo-500 hover:bg-indigo-500 hover:text-white duration-100 ease-in-out w-6/12 text-indigo-500 p-2 flex flex-row justify-center items-center gap-1">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                  />
-                </svg>
-                Đăng ký
-              </button>
+              <Link href="/register">
+                <a className="border border-indigo-500 hover:bg-indigo-500 hover:text-white duration-100 ease-in-out w-6/12 text-indigo-500 p-2 flex flex-row justify-center items-center gap-1">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                    />
+                  </svg>
+                  Đăng ký
+                </a>
+              </Link>
             </div>
-            <div className="my-2 flex flex-row justify-center">
-              <span className="absolute bg-white px-4">hoặc</span>
-              <div
-                className="w-full bg-gray-200 mt-3"
-                style={{ height: '1px' }}
-              ></div>
-            </div>
-            <div className="w-full flex flex-col gap-2">
+          </form>
+          <div className="my-2 flex flex-row justify-center">
+            <span className="absolute bg-white px-4">hoặc</span>
+            <div
+              className="w-full bg-gray-200 mt-3"
+              style={{ height: '1px' }}
+            ></div>
+          </div>
+          <div className="w-full flex flex-col gap-2">
+            <form action="POST" onSubmit={loginWithGoogle}>
+              <input type="hidden" name="csrfToken" defaultValue={csrfToken} />
               <button className="bg-red-500 text-white w-full p-2 flex flex-row justify-center gap-2 items-center hover:bg-red-600 duration-100 ease-in-out">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -98,6 +153,9 @@ const Login = () => {
                 </svg>
                 Đăng nhập với Google
               </button>
+            </form>
+            <form action="POST" onSubmit={loginWithFacebook}>
+              <input type="hidden" name="csrfToken" defaultValue={csrfToken} />
               <button className="bg-blue-600 text-white w-full p-2 flex flex-row justify-center gap-2 items-center hover:bg-blue-700 duration-100 ease-in-out">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -114,12 +172,20 @@ const Login = () => {
                 </svg>
                 Đăng nhập với Facebook
               </button>
-            </div>
+            </form>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );
 };
+
+export async function getServerSideProps(context) {
+  return {
+    props: {
+      csrfToken: await getCsrfToken(context),
+    },
+  };
+}
 
 export default Login;

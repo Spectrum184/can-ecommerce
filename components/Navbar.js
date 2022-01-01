@@ -3,10 +3,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { useState } from 'react';
+import { signOut, useSession } from 'next-auth/react';
 
 const Navbar = () => {
-  const [showMenu, setShowMenu] = useState(true);
+  const [showMenu, setShowMenu] = useState(false);
   const [showCategory, setShowCategory] = useState(false);
+  const { data } = useSession();
 
   return (
     <nav className="bg-white shadow">
@@ -39,7 +41,7 @@ const Navbar = () => {
 
         <div
           className={cn('md:flex items-center', {
-            hidden: showCategory,
+            hidden: !showCategory,
           })}
         >
           <div className="flex flex-col md:flex-row md:mx-6">
@@ -88,43 +90,65 @@ const Navbar = () => {
               <span className="absolute top-0 left-0 rounded-full bg-indigo-500 text-white p-1 text-xs"></span>
             </a>
           </div>
-          <div className="relative my-1 md:my-0">
-            <div
-              onClick={() => setShowMenu(!showMenu)}
-              className="relative h-7 w-7 block cursor-pointer"
-            >
-              <Image
-                src="can-ecommerce/default_gxx9xn.jpg"
-                alt="avatar"
-                layout="fill"
-                className="rounded-full"
-              />
-            </div>
-            <div
-              className={cn(
-                'absolute right-0 w-40 mt-2 py-2 bg-white border rounded shadow-xl',
-                {
-                  hidden: showMenu,
-                }
-              )}
-            >
-              <a
-                href="#"
-                className="transition-colors duration-200 block px-4 py-2 text-normal text-gray-900 rounded hover:bg-purple-500 hover:text-white"
+          {data ? (
+            <div className="relative my-1 md:my-0 h-7 w-7">
+              <div
+                className="relative h-7 w-7 block cursor-pointer"
+                onClick={() => setShowMenu(!showMenu)}
               >
-                Settings
-              </a>
-              <div className="py-2">
-                <hr></hr>
+                <Image
+                  src={data.user.avatar}
+                  alt="avatar"
+                  layout="fill"
+                  className="rounded-full"
+                  priority
+                />
               </div>
-              <a
-                href="#"
-                className="transition-colors duration-200 block px-4 py-2 text-normal text-gray-900 rounded hover:bg-purple-500 hover:text-white"
+              <div
+                className={cn(
+                  'absolute left-auto w-40 mt-2 py-2 bg-white border rounded shadow-xl',
+                  {
+                    hidden: !showMenu,
+                  }
+                )}
               >
-                Logout
-              </a>
+                <a
+                  href="#"
+                  className="transition-colors duration-200 block px-4 py-2 text-normal text-gray-900 rounded hover:bg-indigo-500 hover:text-white"
+                >
+                  Settings
+                </a>
+                <div className="py-2">
+                  <hr></hr>
+                </div>
+                <div
+                  onClick={() => signOut()}
+                  className="transition-colors duration-200 block px-4 py-2 text-normal text-gray-900 rounded hover:bg-indigo-500 hover:text-white cursor-pointer"
+                >
+                  Logout
+                </div>
+              </div>
             </div>
-          </div>
+          ) : (
+            <Link href="/login">
+              <a className="relative my-1 text-gray-700 md:my-0 hover:text-indigo-500 cursor-pointer">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+                  />
+                </svg>
+              </a>
+            </Link>
+          )}
         </div>
       </div>
     </nav>
