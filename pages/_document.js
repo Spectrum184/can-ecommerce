@@ -9,6 +9,7 @@ class MyDocument extends Document {
             name="description"
             content="Can E-commerce website with Next.js"
           />
+          <link rel="icon" href="/favicon.ico" />
         </Head>
         <body>
           <Main />

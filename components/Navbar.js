@@ -4,11 +4,14 @@ import Link from 'next/link';
 
 import { useState } from 'react';
 import { signOut, useSession } from 'next-auth/react';
+import { useCategory } from 'hooks';
 
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [showCategory, setShowCategory] = useState(false);
   const { data } = useSession();
+
+  const categories = useCategory();
 
   return (
     <nav className="bg-white shadow fixed top-0 w-full">
@@ -62,34 +65,15 @@ const Navbar = () => {
           })}
         >
           <div className="flex flex-col md:flex-row md:mx-6">
-            <a
-              className="my-1 text-sm text-gray-700 font-medium hover:text-indigo-500 md:mx-4 md:my-0"
-              href="#"
-            >
-              Home
-            </a>
-            <a
-              className="my-1 text-sm text-gray-700 font-medium hover:text-indigo-500 md:mx-4 md:my-0"
-              href="#"
-            >
-              Shop
-            </a>
-            <a
-              className="my-1 text-sm text-gray-700 font-medium hover:text-indigo-500 md:mx-4 md:my-0"
-              href="#"
-            >
-              Contact
-            </a>
-            <a
-              className="my-1 text-sm text-gray-700 font-medium hover:text-indigo-500 md:mx-4 md:my-0"
-              href="#"
-            >
-              About
-            </a>
-            <a
-              className="relative my-1 text-gray-700 md:ml-4 md:my-0 hover:text-indigo-500"
-              href="#"
-            >
+            {categories?.length > 0 &&
+              categories.map((category) => (
+                <Link href={`category/${category.slug}`} key={category._id}>
+                  <a className="my-1 text-sm text-gray-800 font-medium hover:text-indigo-500 md:mx-4 md:my-0">
+                    {category.name}
+                  </a>
+                </Link>
+              ))}
+            <button className="relative my-1 text-gray-800 md:ml-4 md:my-0 hover:text-indigo-500">
               <svg
                 className="h-5 w-5"
                 viewBox="0 0 24 24"
@@ -105,7 +89,7 @@ const Navbar = () => {
                 />
               </svg>
               <span className="absolute top-0 left-0 rounded-full bg-indigo-500 text-white p-1 text-xs"></span>
-            </a>
+            </button>
           </div>
           {data ? (
             <div
@@ -134,7 +118,7 @@ const Navbar = () => {
                 )}
               >
                 <Link href={`/profile/${data.user._id}`}>
-                  <a className="transition-colors duration-200 block px-4 py-2 text-normal text-gray-900 rounded hover:bg-indigo-500 hover:text-white">
+                  <a className="transition-colors duration-200 block px-4 py-2 text-normal text-gray-800 rounded hover:bg-indigo-500 hover:text-white">
                     Trang cá nhân
                   </a>
                 </Link>
@@ -142,25 +126,25 @@ const Navbar = () => {
                 {data.user.role === 'admin' && (
                   <div>
                     <Link href={`/profile/${data.user._id}`}>
-                      <a className="transition-colors duration-200 block px-4 py-2 text-normal text-gray-900 rounded hover:bg-indigo-500 hover:text-white">
+                      <a className="transition-colors duration-200 block px-4 py-2 text-normal text-gray-800 rounded hover:bg-indigo-500 hover:text-white">
                         Đăng sản phẩm
                       </a>
                     </Link>
                     <hr></hr>
                     <Link href={`/profile/${data.user._id}`}>
-                      <a className="transition-colors duration-200 block px-4 py-2 text-normal text-gray-900 rounded hover:bg-indigo-500 hover:text-white">
+                      <a className="transition-colors duration-200 block px-4 py-2 text-normal text-gray-800 rounded hover:bg-indigo-500 hover:text-white">
                         Thành viên
                       </a>
                     </Link>
                     <hr></hr>
                     <Link href={`/profile/${data.user._id}`}>
-                      <a className="transition-colors duration-200 block px-4 py-2 text-normal text-gray-900 rounded hover:bg-indigo-500 hover:text-white">
+                      <a className="transition-colors duration-200 block px-4 py-2 text-normal text-gray-800 rounded hover:bg-indigo-500 hover:text-white">
                         Đơn hàng
                       </a>
                     </Link>
                     <hr></hr>
                     <Link href="/admin/setting">
-                      <a className="transition-colors duration-200 block px-4 py-2 text-normal text-gray-900 rounded hover:bg-indigo-500 hover:text-white">
+                      <a className="transition-colors duration-200 block px-4 py-2 text-normal text-gray-800 rounded hover:bg-indigo-500 hover:text-white">
                         Cài đặt
                       </a>
                     </Link>
@@ -169,7 +153,7 @@ const Navbar = () => {
                 )}
                 <div
                   onClick={() => signOut()}
-                  className="transition-colors duration-200 block px-4 py-2 text-normal text-gray-900 rounded hover:bg-indigo-500 hover:text-white cursor-pointer"
+                  className="transition-colors duration-200 block px-4 py-2 text-normal text-gray-800 rounded hover:bg-indigo-500 hover:text-white cursor-pointer"
                 >
                   Đăng xuất
                 </div>

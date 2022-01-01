@@ -1,12 +1,38 @@
 import { useState } from 'react';
+import { postDataAPI } from 'utils/fetch-data';
+import { toast } from 'react-toastify';
+import { useCategory } from 'hooks';
 
 const Setting = () => {
   const [showModalCategory, setShowModalCategory] = useState(false);
   const [category, setCategory] = useState();
+  const categories = useCategory();
 
-  const onSubmitCategory = (e) => {
+  const onSubmitCategory = async (e) => {
     e.preventDefault();
+
+    let res;
+
+    if (category?._id) {
+    } else {
+      res = await postDataAPI('category', category);
+    }
+
+    if (res.message) {
+      toast.success(res.message);
+    } else {
+      toast.error(res.error);
+    }
+
+    setShowModalCategory(false);
   };
+
+  const handleEditCategory = (category) => {
+    setCategory(category);
+    setShowModalCategory(true);
+  };
+
+  const deleteCategory = (category) => {};
 
   return (
     <div className="flex">
@@ -19,23 +45,39 @@ const Setting = () => {
           Thêm mới
         </button>
         <table className="rounded-t-lg mt-2 w-full bg-indigo-300 text-gray-800">
-          <tr className="text-left border-b-2 border-gray-300">
-            <th className="px-4 py-3">Tên</th>
-            <th className="px-4 py-3">Slug</th>
-            <th className="px-4 py-3">Hoạt động</th>
-          </tr>
-          <tr className="bg-gray-100 border-b border-indigo-200">
-            <td className="px-4 py-3">Jill</td>
-            <td className="px-4 py-3">Smith</td>
-            <td className="px-4 py-3">
-              <button className="bg-indigo-500 text-white px-4 py-2 border rounded-md hover:bg-indigo-400">
-                Sửa
-              </button>
-              <button className="bg-red-500 ml-2 text-white px-4 py-2 border rounded-md hover:bg-red-400">
-                Xoá
-              </button>
-            </td>
-          </tr>
+          <thead>
+            <tr className="text-left">
+              <th className="px-4 py-3">Tên</th>
+              <th className="px-4 py-3">Slug</th>
+              <th className="px-4 py-3">Hoạt động</th>
+            </tr>
+          </thead>
+          <tbody>
+            {categories?.length > 0 &&
+              categories.map((category) => (
+                <tr
+                  className="bg-gray-100 border-b border-indigo-200"
+                  key={category._id}
+                >
+                  <td className="px-4 py-3">{category.name}</td>
+                  <td className="px-4 py-3">{category.slug}</td>
+                  <td className="px-4 py-3">
+                    <button
+                      onClick={() => handleEditCategory(category)}
+                      className="bg-indigo-500 text-white px-4 py-2 border rounded-md hover:bg-indigo-400"
+                    >
+                      Sửa
+                    </button>
+                    <button
+                      onClick={() => deleteCategory(category)}
+                      className="bg-red-500 ml-2 text-white px-4 py-2 border rounded-md hover:bg-red-400"
+                    >
+                      Xoá
+                    </button>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
         </table>
       </div>
       <div className="w-1/2 flex-1">
@@ -48,7 +90,7 @@ const Setting = () => {
               Cài đặt danh mục
             </h1>
             <form action="POST" onSubmit={onSubmitCategory}>
-              <div className="flex">
+              <div className="flex my-2">
                 <span className="text-sm border-2 rounded-l px-4 py-2 bg-gray-300 whitespace-no-wrap">
                   Tên:
                 </span>
@@ -57,17 +99,10 @@ const Setting = () => {
                   className="border rounded-r px-4 py-2 w-full"
                   type="text"
                   placeholder="Tên danh mục"
-                />
-              </div>
-              <div className="flex my-2">
-                <span className="text-sm border-2 rounded-l px-4 py-2 bg-gray-300 whitespace-no-wrap">
-                  Slug:
-                </span>
-                <input
-                  name="slug"
-                  className="border rounded-r px-4 py-2 w-full"
-                  type="text"
-                  placeholder="Đường dẫn"
+                  value={category ? category.name : ''}
+                  onChange={(e) =>
+                    setCategory({ ...category, name: e.target.value })
+                  }
                 />
               </div>
               <button
