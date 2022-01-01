@@ -11,7 +11,7 @@ const Navbar = () => {
   const { data } = useSession();
 
   return (
-    <nav className="bg-white shadow">
+    <nav className="bg-white shadow fixed top-0 w-full">
       <div className="container max-w-screen-xl mx-auto px-6 py-3 md:flex md:justify-between md:items-center">
         <div className="flex justify-between items-center">
           <div>
@@ -29,12 +29,29 @@ const Navbar = () => {
               aria-label="toggle menu"
               onClick={() => setShowCategory(!showCategory)}
             >
-              <svg viewBox="0 0 24 24" className="h-6 w-6 fill-current">
-                <path
-                  fillRule="evenodd"
-                  d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"
-                ></path>
-              </svg>
+              {showCategory ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              ) : (
+                <svg viewBox="0 0 24 24" className="h-6 w-6 fill-current">
+                  <path
+                    fillRule="evenodd"
+                    d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"
+                  ></path>
+                </svg>
+              )}
             </button>
           </div>
         </div>
@@ -70,7 +87,7 @@ const Navbar = () => {
               About
             </a>
             <a
-              className="relative my-1 text-gray-700 md:mx-4 md:my-0 hover:text-indigo-500"
+              className="relative my-1 text-gray-700 md:ml-4 md:my-0 hover:text-indigo-500"
               href="#"
             >
               <svg
@@ -91,7 +108,11 @@ const Navbar = () => {
             </a>
           </div>
           {data ? (
-            <div className="relative my-1 md:my-0 h-7 w-7">
+            <div
+              className="relative my-1 md:my-0 h-7 w-7"
+              onMouseOver={() => setShowMenu(true)}
+              onMouseOut={() => setShowMenu(false)}
+            >
               <div
                 className="relative h-7 w-7 block cursor-pointer"
                 onClick={() => setShowMenu(!showMenu)}
@@ -106,26 +127,51 @@ const Navbar = () => {
               </div>
               <div
                 className={cn(
-                  'absolute left-auto w-40 mt-2 py-2 bg-white border rounded shadow-xl',
+                  'absolute top-5 left-0 md:right-0 md:left-auto w-40 mt-2 py-2 bg-white border rounded shadow-xl',
                   {
                     hidden: !showMenu,
                   }
                 )}
               >
-                <a
-                  href="#"
-                  className="transition-colors duration-200 block px-4 py-2 text-normal text-gray-900 rounded hover:bg-indigo-500 hover:text-white"
-                >
-                  Settings
-                </a>
-                <div className="py-2">
-                  <hr></hr>
-                </div>
+                <Link href={`/profile/${data.user._id}`}>
+                  <a className="transition-colors duration-200 block px-4 py-2 text-normal text-gray-900 rounded hover:bg-indigo-500 hover:text-white">
+                    Trang cá nhân
+                  </a>
+                </Link>
+                <hr></hr>
+                {data.user.role === 'admin' && (
+                  <div>
+                    <Link href={`/profile/${data.user._id}`}>
+                      <a className="transition-colors duration-200 block px-4 py-2 text-normal text-gray-900 rounded hover:bg-indigo-500 hover:text-white">
+                        Đăng sản phẩm
+                      </a>
+                    </Link>
+                    <hr></hr>
+                    <Link href={`/profile/${data.user._id}`}>
+                      <a className="transition-colors duration-200 block px-4 py-2 text-normal text-gray-900 rounded hover:bg-indigo-500 hover:text-white">
+                        Thành viên
+                      </a>
+                    </Link>
+                    <hr></hr>
+                    <Link href={`/profile/${data.user._id}`}>
+                      <a className="transition-colors duration-200 block px-4 py-2 text-normal text-gray-900 rounded hover:bg-indigo-500 hover:text-white">
+                        Đơn hàng
+                      </a>
+                    </Link>
+                    <hr></hr>
+                    <Link href="/admin/setting">
+                      <a className="transition-colors duration-200 block px-4 py-2 text-normal text-gray-900 rounded hover:bg-indigo-500 hover:text-white">
+                        Cài đặt
+                      </a>
+                    </Link>
+                    <hr></hr>
+                  </div>
+                )}
                 <div
                   onClick={() => signOut()}
                   className="transition-colors duration-200 block px-4 py-2 text-normal text-gray-900 rounded hover:bg-indigo-500 hover:text-white cursor-pointer"
                 >
-                  Logout
+                  Đăng xuất
                 </div>
               </div>
             </div>

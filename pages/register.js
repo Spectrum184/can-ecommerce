@@ -55,7 +55,10 @@ const Register = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center w-full h-full">
+    <div
+      className="flex flex-col justify-center items-center w-full"
+      style={{ height: 'calc(100vh - 56px)' }}
+    >
       <Head>
         <title>Đăng ký</title>
       </Head>

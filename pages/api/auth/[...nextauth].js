@@ -53,7 +53,7 @@ export default NextAuth({
     error: '/login',
   },
   callbacks: {
-    session: async ({ session, user }) => {
+    session: async ({ session }) => {
       if (session) {
         let newUser;
         if (!session.user.image) {
@@ -79,7 +79,7 @@ export default NextAuth({
 
       return session;
     },
-    signIn: async ({ user, account, profile, email, credentials }) => {
+    signIn: async ({ user, account }) => {
       if (account.provider !== 'credentials') {
         let newUser = await User.findOne({
           username: account.provider,
