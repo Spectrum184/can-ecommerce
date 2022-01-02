@@ -8,6 +8,7 @@ import { postDataAPI } from 'utils/fetch-data';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
+import { toastNotify } from 'utils/toast';
 
 const Register = () => {
   const initialState = {
@@ -43,10 +44,9 @@ const Register = () => {
     }
 
     const res = await postDataAPI('auth/register', userData);
-    if (res.error) {
-      toast.error(res.error);
-    } else {
-      toast.success(res.message);
+    toastNotify(res);
+
+    if (!res.error) {
       await signIn('credentials', {
         username,
         password,
@@ -150,7 +150,7 @@ const Register = () => {
                 </svg>
                 Đăng ký
               </button>
-              <Link href="/login">
+              <Link href="/dang-nhap">
                 <a
                   className="border border-indigo-500 hover:bg-indigo-500 hover:text-white duration-100 ease-in-out w-6/12 text-indigo-500 p-0 flex flex-row justify-center items-center gap-1"
                   type="submit"

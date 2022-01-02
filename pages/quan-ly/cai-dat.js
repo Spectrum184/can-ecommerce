@@ -1,12 +1,16 @@
+import Head from 'next/head';
+
 import { useState } from 'react';
-import { postDataAPI } from 'utils/fetch-data';
-import { toast } from 'react-toastify';
+import { deleteDataAPI, patchDataAPI, postDataAPI } from 'utils/fetch-data';
 import { useCategory } from 'hooks';
+import { toastNotify } from 'utils/toast';
+import { useSWRConfig } from 'swr';
 
 const Setting = () => {
   const [showModalCategory, setShowModalCategory] = useState(false);
   const [category, setCategory] = useState();
   const categories = useCategory();
+  const { mutate } = useSWRConfig();
 
   const onSubmitCategory = async (e) => {
     e.preventDefault();
@@ -14,16 +18,14 @@ const Setting = () => {
     let res;
 
     if (category?._id) {
+      res = await patchDataAPI(`category/${category._id}`, category);
     } else {
       res = await postDataAPI('category', category);
     }
 
-    if (res.message) {
-      toast.success(res.message);
-    } else {
-      toast.error(res.error);
-    }
-
+    toastNotify(res);
+    mutate('category');
+    setCategory();
     setShowModalCategory(false);
   };
 
@@ -32,10 +34,18 @@ const Setting = () => {
     setShowModalCategory(true);
   };
 
-  const deleteCategory = (category) => {};
+  const deleteCategory = async (category) => {
+    const res = await deleteDataAPI(`category/${category._id}`);
+
+    toastNotify(res);
+    mutate('category');
+  };
 
   return (
     <div className="flex">
+      <Head>
+        <title>Cài đặt trang</title>
+      </Head>
       <div className="w-1/2 p-2">
         <p className="text-2xl text-center font-bold m-5">Danh mục</p>
         <button
@@ -107,7 +117,10 @@ const Setting = () => {
               </div>
               <button
                 type="reset"
-                onClick={() => setShowModalCategory(false)}
+                onClick={() => {
+                  setShowModalCategory(false);
+                  setCategory();
+                }}
                 className="bg-indigo-500 px-4 py-2 rounded-md text-md text-white"
               >
                 Huỷ

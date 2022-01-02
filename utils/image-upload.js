@@ -1,21 +1,21 @@
 export const imageUpload = async (images) => {
-    let imgArr = [];
+  let imgArr = [];
 
-    for (const image of images) {
-        const formData = new FormData();
-        formData.append('file', image);
-        formData.append('upload_preset', process.env.CLOUD_UPDATE_PRESET);
-        formData.append('cloud_name', process.env.CLOUD_NAME);
+  for (const image of images) {
+    const formData = new FormData();
+    formData.append('file', image);
+    formData.append('upload_preset', process.env.CLOUD_UPDATE_PRESET);
+    formData.append('cloud_name', process.env.CLOUD_NAME);
 
-        const res = await fetch(process.env.CLOUD_API, {
-            method: 'POST',
-            body: formData
-        })
+    const res = await fetch(process.env.CLOUD_API, {
+      method: 'POST',
+      body: formData,
+    });
 
-        const data = await res.json();
+    const data = await res.json();
 
-        imgArr.push({ publicId: data.public_id, url: data.secure_url })
-    }
+    imgArr.push({ secureUrl: data.secure_url, url: data.public_id });
+  }
 
-    return imgArr;
-}
+  return imgArr;
+};

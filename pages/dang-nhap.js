@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { getCsrfToken, signIn, useSession } from 'next-auth/react';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
+import { toastNotify } from 'utils/toast';
 
 const Login = ({ csrfToken }) => {
   const [username, setUsername] = useState('');
@@ -31,7 +32,7 @@ const Login = ({ csrfToken }) => {
       password,
     });
 
-    if (res.error) toast.error(res.error);
+    toastNotify(res);
   };
 
   const loginWithGoogle = async (e) => {
@@ -105,7 +106,7 @@ const Login = ({ csrfToken }) => {
                 </svg>
                 Đăng nhập
               </button>
-              <Link href="/register">
+              <Link href="/dang-ky">
                 <a className="border border-indigo-500 hover:bg-indigo-500 hover:text-white duration-100 ease-in-out w-6/12 text-indigo-500 p-2 flex flex-row justify-center items-center gap-1">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

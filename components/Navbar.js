@@ -14,13 +14,13 @@ const Navbar = () => {
   const categories = useCategory();
 
   return (
-    <nav className="bg-white shadow fixed top-0 w-full">
+    <nav className="bg-white shadow fixed top-0 w-full z-50">
       <div className="container max-w-screen-xl mx-auto px-6 py-3 md:flex md:justify-between md:items-center">
         <div className="flex justify-between items-center">
           <div>
             <Link href="/">
               <a className="text-gray-800 text-xl font-bold md:text-2xl hover:text-gray-700">
-                Brand
+                CẦN
               </a>
             </Link>
           </div>
@@ -105,13 +105,13 @@ const Navbar = () => {
                   src={data.user.avatar}
                   alt="avatar"
                   layout="fill"
-                  className="rounded-full"
+                  className="rounded-full object-cover"
                   priority
                 />
               </div>
               <div
                 className={cn(
-                  'absolute top-5 left-0 md:right-0 md:left-auto w-40 mt-2 py-2 bg-white border rounded shadow-xl',
+                  'absolute z-50 overflow-hidden top-5 left-0 md:right-0 md:left-auto w-40 mt-2 py-2 bg-white border rounded shadow-xl',
                   {
                     hidden: !showMenu,
                   }
@@ -125,9 +125,15 @@ const Navbar = () => {
                 <hr></hr>
                 {data.user.role === 'admin' && (
                   <div>
+                    <Link href={`/quan-ly/san-pham`}>
+                      <a className="transition-colors duration-200 block px-4 py-2 text-normal text-gray-800 rounded hover:bg-indigo-500 hover:text-white">
+                        Sản phẩm
+                      </a>
+                    </Link>
+                    <hr></hr>
                     <Link href={`/profile/${data.user._id}`}>
                       <a className="transition-colors duration-200 block px-4 py-2 text-normal text-gray-800 rounded hover:bg-indigo-500 hover:text-white">
-                        Đăng sản phẩm
+                        Dashboard
                       </a>
                     </Link>
                     <hr></hr>
@@ -143,7 +149,7 @@ const Navbar = () => {
                       </a>
                     </Link>
                     <hr></hr>
-                    <Link href="/admin/setting">
+                    <Link href="/quan-ly/cai-dat">
                       <a className="transition-colors duration-200 block px-4 py-2 text-normal text-gray-800 rounded hover:bg-indigo-500 hover:text-white">
                         Cài đặt
                       </a>
@@ -160,7 +166,7 @@ const Navbar = () => {
               </div>
             </div>
           ) : (
-            <Link href="/login">
+            <Link href="/dang-nhap">
               <a className="relative my-1 text-gray-700 md:my-0 hover:text-indigo-500 cursor-pointer">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
