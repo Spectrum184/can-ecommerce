@@ -44,8 +44,8 @@ const ProductCard = ({
         </span>
         <span className="text-lg">Ưng: {likes.length}</span>
       </div>
-      <div className="w-full mt-2">{description.substring(0, 100)}...</div>
-      <div className="flex justify-between my-2">
+      <div className="w-full my-2">{description.substring(0, 110)}...</div>
+      <div className="flex justify-between my-2 bottom-2">
         <Link href={`/san-pham/${slug}`}>
           <a className="py-3 px-6 text-white rounded-lg bg-indigo-600 shadow-lg block md:inline-block">
             Xem

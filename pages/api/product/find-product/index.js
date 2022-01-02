@@ -24,7 +24,7 @@ const findProduct = async (req, res) => {
       result = await Product.find()
         .select('-content')
         .skip(Number(page) * 9)
-        .sort('-salePrice')
+        .sort('salePrice')
         .limit(Number(limit));
     } else {
       result = await Product.find()
