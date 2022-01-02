@@ -67,7 +67,7 @@ const Navbar = () => {
           <div className="flex flex-col md:flex-row md:mx-6">
             {categories?.length > 0 &&
               categories.map((category) => (
-                <Link href={`category/${category.slug}`} key={category._id}>
+                <Link href={`danh-muc/${category.slug}`} key={category._id}>
                   <a className="my-1 text-sm text-gray-800 font-medium hover:text-indigo-500 md:mx-4 md:my-0">
                     {category.name}
                   </a>
