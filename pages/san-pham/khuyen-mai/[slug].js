@@ -1,31 +1,31 @@
 import Pagination from 'components/Pagination';
 import ProductCard from 'components/ProductCard';
 
-import { useListProductCategory } from 'hooks';
+import { useProductByCondition } from 'hooks';
 import { useState } from 'react';
 
-const Category = ({ slug }) => {
+const HighlightProduct = ({ slug }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const result = useListProductCategory({
-    category: slug,
-    page: currentPage,
+  const data = useProductByCondition({
+    query: slug,
     limit: 12,
+    page: currentPage,
   });
 
   return (
-    <div className="w-full mt-4 px-0 md:px-10">
+    <div className="w-full px-0 md:px-10 pb-4 mt-4">
       <div className="grid grid-cols-1 md:grid-cols-4 md:gap-6 gap-0 w-full">
-        {result?.products.length > 0 &&
-          result?.products.map((product) => (
+        {data?.result.length > 0 &&
+          data?.result.map((product) => (
             <ProductCard key={product._id} {...product} />
           ))}
       </div>
       <div className="">
-        {result?.total > 12 && (
+        {data?.total > 12 && (
           <Pagination
-            onPageChange={(page) => setCurrentPage(page)}
-            totalPage={total}
+            totalPage={data?.total}
             currentPage={currentPage}
+            onPageChange={(page) => setCurrentPage(page)}
           />
         )}
       </div>
@@ -39,4 +39,4 @@ export async function getServerSideProps({ params: { slug } }) {
   };
 }
 
-export default Category;
+export default HighlightProduct;

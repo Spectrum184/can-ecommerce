@@ -16,7 +16,7 @@ export default function Home({ onSale, bestSeller }) {
             Sản phẩm đang giảm giá
           </span>
           <span className="hover:text-gray-200 text-white mr-2">
-            <Link href={'/san-pham/tim-kiem/giam-gia'}>
+            <Link href={'/san-pham/khuyen-mai/giam-gia'}>
               <a>
                 <span className="hidden md:block">Xem thêm</span>
                 <span className="md:hidden">&#10093;</span>
@@ -37,7 +37,7 @@ export default function Home({ onSale, bestSeller }) {
             Sản phẩm đang bán chạy
           </span>
           <span className="hover:text-gray-200 text-white mr-2">
-            <Link href={'/san-pham/tim-kiem/ban-chay'}>
+            <Link href={'/san-pham/khuyen-mai/ban-chay'}>
               <a>
                 <span className="hidden md:block">Xem thêm</span>
                 <span className="md:hidden">&#10093;</span>
@@ -58,12 +58,12 @@ export default function Home({ onSale, bestSeller }) {
 
 export async function getServerSideProps() {
   const onSale = await getDataAPI(
-    `product/find-product?type=sale&limit=4&page=0`
+    `product/find-product?type=sale&limit=4&page=1`
   );
   const bestSeller = await getDataAPI(
-    `product/find-product?type=sold&limit=4&page=0`
+    `product/find-product?type=sold&limit=4&page=1`
   );
   return {
-    props: { onSale, bestSeller },
+    props: { onSale: onSale.result, bestSeller: bestSeller.result },
   };
 }

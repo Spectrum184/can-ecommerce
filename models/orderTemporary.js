@@ -10,10 +10,22 @@ const orderSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    cart: [{ type: mongoose.Types.ObjectId, ref: 'cart' }],
+    products: [
+      {
+        productId: Number,
+        quantity: Number,
+        name: String,
+        price: Number,
+        image: String,
+      },
+    ],
     status: {
       type: String,
       default: 'pending',
+    },
+    checked: {
+      type: Boolean,
+      default: false,
     },
   },
   {
@@ -21,5 +33,7 @@ const orderSchema = new mongoose.Schema(
   }
 );
 
-let Dataset = mongoose.models.order || mongoose.model('order', orderSchema);
+let Dataset =
+  mongoose.models.orderTemporary ||
+  mongoose.model('orderTemporary', orderSchema);
 export default Dataset;

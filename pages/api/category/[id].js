@@ -5,6 +5,8 @@ import slugify from 'slugify';
 import { adminMiddleware } from 'middlewares/admin';
 import { connectDB } from 'utils/connect-db';
 
+connectDB();
+
 export default async function handler(req, res) {
   const authError = await adminMiddleware(req);
   if (authError) return res.status(400).json({ error: authError });

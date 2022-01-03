@@ -42,7 +42,7 @@ const Carousel = () => {
           src={images[imageIndex]}
           alt="carousel"
           layout="fill"
-          className="rounded-sm"
+          className="rounded-sm object-cover"
           priority
         ></Image>
         <button

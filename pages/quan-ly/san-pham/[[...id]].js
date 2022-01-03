@@ -3,25 +3,27 @@ import Image from 'next/image';
 
 import { useCategory } from 'hooks';
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { toast } from 'react-toastify';
 import { useSession } from 'next-auth/react';
 import { imageUpload } from 'utils/image-upload';
-import { postDataAPI } from 'utils/fetch-data';
+import { getDataAPI, postDataAPI } from 'utils/fetch-data';
 import { toastNotify } from 'utils/toast';
 
 const ProductManager = () => {
+  const initialState = useMemo(() => {
+    return {
+      title: '',
+      price: 0,
+      salePrice: 0,
+      description: '',
+      content: '',
+      category: '',
+      inStock: 0,
+    };
+  }, []);
   const router = useRouter();
   const categories = useCategory();
-  const initialState = {
-    title: '',
-    price: 0,
-    salePrice: 0,
-    description: '',
-    content: '',
-    category: '',
-    inStock: 0,
-  };
 
   const [onEdit, setOnEdit] = useState(false);
   const [images, setImages] = useState([]);
@@ -34,6 +36,20 @@ const ProductManager = () => {
   useEffect(() => {
     if (data && data.user.role !== 'admin') router.push('/');
   }, [data, router]);
+
+  useEffect(() => {
+    if (id) {
+      setOnEdit(true);
+      getDataAPI(`product/${id}`).then((res) => {
+        setProduct(res);
+        setImages(res.images);
+      });
+    } else {
+      setOnEdit(false);
+      setProduct(initialState);
+      setImages([]);
+    }
+  }, [id, initialState]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -108,6 +124,10 @@ const ProductManager = () => {
     }
 
     toastNotify(res);
+    if (res.message) {
+      setImages([]);
+      setProduct(initialState);
+    }
   };
 
   return (
@@ -248,7 +268,8 @@ const ProductManager = () => {
                     src={image.url ? image.url : URL.createObjectURL(image)}
                     alt="image"
                     layout="fill"
-                    className="z-10"
+                    priority
+                    className="z-10 object-cover"
                   ></Image>
                 </div>
 

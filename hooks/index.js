@@ -1,9 +1,9 @@
-import { useMemo } from 'react';
 import useSWR from 'swr';
 
+import { useMemo } from 'react';
 import { getDataAPI } from 'utils/fetch-data';
 
-const fetcher = (url) => getDataAPI(url);
+const fetcher = async (url) => await getDataAPI(url);
 
 // fetch data for category navbar
 export const useCategory = () => {
@@ -68,6 +68,24 @@ export const usePagination = ({ totalPage, siblingCount = 1, currentPage }) => {
 export const useListProductCategory = ({ category, limit, page }) => {
   const { data } = useSWR(
     `category/find-product?category=${category}&limit=${limit}&page=${page}`,
+    fetcher
+  );
+
+  return data;
+};
+
+//fetch cart
+export const useCart = () => {
+  const { data } = useSWR('cart', fetcher);
+
+  return data?.cart;
+};
+
+//fetch data product by condition
+export const useProductByCondition = ({ query, limit, page }) => {
+  const type = query === 'giam-gia' ? 'sale' : 'sold';
+  const { data } = useSWR(
+    `product/find-product?type=${type}&limit=${limit}&page=${page}`,
     fetcher
   );
 

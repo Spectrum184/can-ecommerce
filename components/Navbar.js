@@ -4,14 +4,14 @@ import Link from 'next/link';
 
 import { useState } from 'react';
 import { signOut, useSession } from 'next-auth/react';
-import { useCategory } from 'hooks';
+import { useCart, useCategory } from 'hooks';
 
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [showCategory, setShowCategory] = useState(false);
   const { data } = useSession();
-
   const categories = useCategory();
+  const cart = useCart();
 
   return (
     <nav className="bg-white shadow fixed top-0 w-full z-50">
@@ -24,7 +24,6 @@ const Navbar = () => {
               </a>
             </Link>
           </div>
-
           <div className="flex md:hidden">
             <button
               type="button"
@@ -64,9 +63,9 @@ const Navbar = () => {
             hidden: !showCategory,
           })}
         >
-          <div className="flex flex-col md:flex-row md:mx-6">
+          <div className="flex flex-col md:flex-row md:mx-6 w-full">
             {categories?.length > 0 &&
-              categories.map((category) => (
+              categories?.map((category) => (
                 <Link href={`/danh-muc/${category.slug}`} key={category._id}>
                   <a className="my-1 text-sm text-gray-800 font-medium hover:text-indigo-500 md:mx-4 md:my-0">
                     {category.name}
@@ -88,7 +87,9 @@ const Navbar = () => {
                   strokeLinejoin="round"
                 />
               </svg>
-              <span className="absolute top-0 left-0 rounded-full bg-indigo-500 text-white p-1 text-xs"></span>
+              {cart && (
+                <span className="absolute top-0 left-0 rounded-full bg-indigo-500 text-white p-1 text-xs"></span>
+              )}
             </button>
           </div>
           {data ? (

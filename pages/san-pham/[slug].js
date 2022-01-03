@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import Image from 'next/image';
+import Link from 'next/link';
 
 import { getDataAPI } from 'utils/fetch-data';
 import { useState } from 'react';
@@ -34,10 +35,10 @@ const Product = ({ product }) => {
               className="rounded-sm object-cover"
             ></Image>
           </div>
-          <div className="w-full grid grid-cols-5 gap-4">
+          <div className="w-full grid grid-cols-5 md:gap-4 gap-1">
             {product.images.map((image, index) => (
               <div
-                className="relative cursor-pointer h-32 border rounded-sm border-indigo-400"
+                className="relative cursor-pointer md:h-32 h-24  border rounded-sm border-indigo-400"
                 key={index}
                 onClick={() => setImageTab(index)}
               >
@@ -103,9 +104,11 @@ const Product = ({ product }) => {
               Mua ngay
             </button>
             {data?.user.role === 'admin' && (
-              <button className="py-3 px-6 text-white rounded-lg bg-purple-500 w-full shadow-lg block md:inline-block">
-                Quản lý
-              </button>
+              <Link href={`/quan-ly/san-pham/${product.slug}`}>
+                <a className="py-3 px-6 text-white rounded-lg bg-purple-500 text-center w-full shadow-lg block md:inline-block">
+                  Quản lý
+                </a>
+              </Link>
             )}
           </div>
         </div>
@@ -113,7 +116,10 @@ const Product = ({ product }) => {
       <section id="product-overview" className="w-full mt-4">
         <div className="w-full flex md:w-2/3 flex-wrap justify-center bg-white rounded-sm p-2 md:p-4">
           <p className="text-2xl w-full text-center font-bold m-5">Đánh giá</p>
-          <div className="w-full mt-3">{product.content}</div>
+          <div
+            className="w-full mt-3"
+            dangerouslySetInnerHTML={{ __html: product.content }}
+          ></div>
         </div>
       </section>
       <section id="product-comment pb-4">

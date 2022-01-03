@@ -13,6 +13,7 @@ const userSchema = mongoose.Schema(
     email: {
       type: String,
       required: true,
+      default: 'candeptraipro@gmai.com',
     },
     password: {
       type: String,
