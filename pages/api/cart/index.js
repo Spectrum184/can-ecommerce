@@ -16,6 +16,9 @@ export default async function handler(req, res) {
     case 'GET':
       await getCart(req, res, user);
       break;
+    case 'PATCH':
+      await deleteProductInCart(req, res, user);
+      break;
     case 'POST':
       await addProductToCart(req, res, user);
       break;
@@ -65,8 +68,6 @@ const addProductToCart = async (req, res, user) => {
           'Thêm vào giỏ hảng thành công! Bấm vào biểu tượng giỏ hàng trên góc màn hình để kiểm tra!';
       }
     } else {
-      console.log({ productId, name, price, quantity, image });
-
       const newCart = new Cart({
         userId: user._id,
       });

@@ -10,10 +10,14 @@ const orderSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    cart: [{ type: mongoose.Types.ObjectId, ref: 'cart' }],
+    cart: { type: mongoose.Types.ObjectId, ref: 'cart' },
     status: {
       type: String,
       default: 'pending',
+    },
+    completed: {
+      type: Boolean,
+      default: false,
     },
   },
   {

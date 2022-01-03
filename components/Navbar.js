@@ -72,7 +72,7 @@ const Navbar = () => {
                   </a>
                 </Link>
               ))}
-            <Link href="/gio-hang/1">
+            <Link href={data ? '/gio-hang' : '/gio-hang/1'}>
               <a className="relative my-1 text-gray-800 md:ml-4 md:my-0 hover:text-indigo-500">
                 <svg
                   className="h-5 w-5"
@@ -88,7 +88,7 @@ const Navbar = () => {
                     strokeLinejoin="round"
                   />
                 </svg>
-                {cart && (
+                {cart?.products.length > 0 && (
                   <span className="absolute top-0 left-0 rounded-full bg-indigo-500 text-white p-1 text-xs"></span>
                 )}
               </a>
