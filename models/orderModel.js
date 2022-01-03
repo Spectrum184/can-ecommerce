@@ -13,7 +13,7 @@ const orderSchema = new mongoose.Schema(
     cart: { type: mongoose.Types.ObjectId, ref: 'cart' },
     status: {
       type: String,
-      default: 'pending',
+      default: 'đang kiểm tra',
     },
     completed: {
       type: Boolean,

@@ -12,7 +12,7 @@ const orderSchema = new mongoose.Schema(
     },
     products: [
       {
-        productId: Number,
+        productId: String,
         quantity: Number,
         name: String,
         price: Number,
@@ -21,7 +21,7 @@ const orderSchema = new mongoose.Schema(
     ],
     status: {
       type: String,
-      default: 'pending',
+      default: 'đang kiểm tra',
     },
     checked: {
       type: Boolean,

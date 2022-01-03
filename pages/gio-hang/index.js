@@ -19,9 +19,9 @@ const Cart = () => {
   const [total, setTotal] = useState(0);
   const [cartData, setCartData] = useState();
   const [deliverInfo, setDeliverInfo] = useState(initialState);
-  const cart = useCart();
   const { address, mobile } = deliverInfo;
   const { mutate } = useSWRConfig();
+  const cart = useCart();
   const router = useRouter();
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const Cart = () => {
   const onOrder = async (e) => {
     e.preventDefault();
 
-    if (cartData?.products.length === 0) {
+    if (!cartData || cartData?.products.length === 0) {
       toast.error('Giỏ hàng trống!');
 
       return;
@@ -92,7 +92,7 @@ const Cart = () => {
             />
           ))
         ) : (
-          <h3 className="w-full text-center mx-auto text-xl text-gray-700">
+          <h3 className="w-full text-center mx-auto text-xl mt-4 text-gray-700">
             Bạn chưa thêm hàng vào giỏ!
           </h3>
         )}
@@ -104,7 +104,7 @@ const Cart = () => {
         <form action="POST" onSubmit={onOrder}>
           <div className="">
             <span className="flex mb-5 text-md">
-              <span className="bg-indigo-500 w-28 font-semibold text-center text-white p-2 px-5 rounded-l">
+              <span className="bg-indigo-500 w-32 font-semibold text-center text-white p-2 px-5 rounded-l">
                 Địa chỉ
               </span>
               <input
@@ -116,7 +116,7 @@ const Cart = () => {
               />
             </span>
             <span className="flex mb-5 text-md">
-              <span className="bg-indigo-500 w-28 font-semibold text-center text-white p-2 px-5 rounded-l">
+              <span className="bg-indigo-500 w-32 font-semibold text-center text-white p-2 px-5 rounded-l">
                 SDT
               </span>
               <input
@@ -128,7 +128,11 @@ const Cart = () => {
               />
             </span>
             <span className="my-5 w-full text-xl text-red-500 text-md font-semibold">
-              Tổng tiền: {total}
+              Tổng tiền:
+              {total.toLocaleString('it-IT', {
+                style: 'currency',
+                currency: 'VND',
+              })}
             </span>
             <button
               type="submit"

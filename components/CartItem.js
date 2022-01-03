@@ -63,7 +63,7 @@ const CartItem = ({
         <div className="p-2 rounded-sm bg-white mr-4">
           <Link href={`/san-pham/${slug}`}>
             <a>
-              <div className="relative w-32 h-32 border border-gray-400">
+              <div className="relative w-32 h-32 border border-gray-400 rounded-sm">
                 <Image
                   src={image}
                   alt={productId}
