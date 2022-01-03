@@ -79,8 +79,7 @@ export default NextAuth({
 
       return session;
     },
-    signIn: async ({ user, account, profile, email, credentials }) => {
-      console.log({ user, account, profile, email, credentials });
+    signIn: async ({ user, account }) => {
       if (account.provider !== 'credentials') {
         let newUser = await User.findOne({
           username: account.provider,

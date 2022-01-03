@@ -2,13 +2,18 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { getDataAPI } from 'utils/fetch-data';
+import { getDataAPI, postDataAPI } from 'utils/fetch-data';
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
+import { toastNotify } from 'utils/toast';
+import { useRouter } from 'next/router';
+import { useSWRConfig } from 'swr';
 
 const Product = ({ product }) => {
   const [imageTab, setImageTab] = useState(0);
   const { data } = useSession();
+  const { mutate } = useSWRConfig();
+  const router = useRouter();
 
   if (product.error)
     return (
@@ -18,6 +23,24 @@ const Product = ({ product }) => {
         </h1>
       </div>
     );
+
+  const handleBuyProduct = async () => {
+    if (data) {
+      const cart = {
+        productId: product._id,
+        quantity: 1,
+        name: product.title,
+        price: product.salePrice === 0 ? product.price : product.salePrice,
+        image: product.images[0].url,
+      };
+      const res = await postDataAPI('cart', cart);
+
+      toastNotify(res);
+      mutate('cart');
+    } else {
+      router.push(`/gio-hang/${product.slug}`);
+    }
+  };
 
   return (
     <div className="w-full">
@@ -100,15 +123,25 @@ const Product = ({ product }) => {
               Lượt ưng:
               <span className="text-red-500 mx-2">{product.likes.length}</span>
             </div>
-            <button className="py-3 px-6 my-2 text-white rounded-lg bg-indigo-500 w-full shadow-lg block md:inline-block">
-              Mua ngay
-            </button>
-            {data?.user.role === 'admin' && (
-              <Link href={`/quan-ly/san-pham/${product.slug}`}>
-                <a className="py-3 px-6 text-white rounded-lg bg-purple-500 text-center w-full shadow-lg block md:inline-block">
-                  Quản lý
-                </a>
-              </Link>
+
+            {data?.user.role === 'admin' ? (
+              <div>
+                <Link href={`/quan-ly/san-pham/${product.slug}`}>
+                  <a className="py-3 px-6 my-1 text-white rounded-lg bg-purple-500 text-center w-full shadow-lg block md:inline-block">
+                    Quản lý
+                  </a>
+                </Link>
+                <button className="py-3 my-1 px-6 text-white rounded-lg bg-red-500 text-center w-full shadow-lg block md:inline-block">
+                  Xoá
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={handleBuyProduct}
+                className="py-3 px-6 my-1 text-white rounded-lg bg-indigo-500 w-full shadow-lg block md:inline-block"
+              >
+                Mua ngay
+              </button>
             )}
           </div>
         </div>

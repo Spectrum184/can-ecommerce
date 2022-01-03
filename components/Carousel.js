@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 import { useState, useEffect, useCallback } from 'react';
 
@@ -9,6 +10,8 @@ const Carousel = () => {
     'can-ecommerce/50101150008_8b69e404f9_b_virto7.jpg',
     'can-ecommerce/van_tho_plxpax.jpg',
   ]);
+  const [imageIndex, setImageIndex] = useState(0);
+  const router = useRouter();
 
   const handleNextImage = useCallback(() => {
     setImageIndex((index) => {
@@ -25,8 +28,6 @@ const Carousel = () => {
     return () => clearInterval(carouselInterval);
   }, [handleNextImage]);
 
-  const [imageIndex, setImageIndex] = useState(0);
-
   const handlePreviousImage = () => {
     setImageIndex((index) => {
       if (index === 0) return 3;
@@ -36,14 +37,21 @@ const Carousel = () => {
 
   return (
     <div className="w-full mt-3">
-      <div className="relative rounded-lg h-80 block md:flex items-center bg-gray-100 shadow-xl">
-        <div className="transition ease-in-out relative w-full md:w-2/5 h-full overflow-hidden rounded-t-lg md:rounded-t-none md:rounded-l-lg"></div>
+      <div className="transition ease-in-out relative rounded-lg h-80 block md:flex items-center bg-gray-100 shadow-xl">
+        <div className="relative w-full md:w-2/5 h-full overflow-hidden rounded-t-lg md:rounded-t-none md:rounded-l-lg"></div>
         <Image
           src={images[imageIndex]}
           alt="carousel"
           layout="fill"
-          className="rounded-sm object-cover"
+          className="rounded-sm object-cover cursor-pointer"
           priority
+          onClick={() =>
+            router.push(
+              `/san-pham/khuyen-mai/${
+                imageIndex % 2 === 0 ? 'giam-gia' : 'ban-chay'
+              }`
+            )
+          }
         ></Image>
         <button
           onClick={handlePreviousImage}

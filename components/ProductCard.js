@@ -2,6 +2,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import { postDataAPI } from 'utils/fetch-data';
+import { toastNotify } from 'utils/toast';
+import { useSWRConfig } from 'swr';
 
 const ProductCard = ({
   images,
@@ -13,8 +17,29 @@ const ProductCard = ({
   title,
   likes,
   inStock,
+  _id,
 }) => {
   const { data } = useSession();
+  const { mutate } = useSWRConfig();
+  const router = useRouter();
+
+  const handleBuyProduct = async () => {
+    if (data) {
+      const cart = {
+        productId: _id,
+        quantity: 1,
+        name: title,
+        price: salePrice === 0 ? price : salePrice,
+        image: images[0].url,
+      };
+      const res = await postDataAPI('cart', cart);
+
+      toastNotify(res);
+      mutate('cart');
+    } else {
+      router.push(`/gio-hang/${slug}`);
+    }
+  };
 
   return (
     <div className="w-full shadow border p-4 my-3 md:my-0">
@@ -58,13 +83,24 @@ const ProductCard = ({
       <div className="w-full my-2">{description.substring(0, 100)}...</div>
       <div className="flex justify-between my-2 bottom-2">
         <Link href={`/san-pham/${slug}`}>
-          <a className="py-2 px-5 text-white rounded-lg bg-indigo-600 shadow-lg block md:inline-block">
+          <a className="py-2 px-5 text-white rounded-sm bg-indigo-500 hover:bg-indigo-400 block md:inline-block">
             Xem
           </a>
         </Link>
-        <button className="py-2 px-5 text-white rounded-lg bg-purple-500 shadow-lg block md:inline-block">
-          Mua
-        </button>
+        {data?.user?.role === 'admin' ? (
+          <Link href={`quan-ly/san-pham/${slug}`}>
+            <a className="py-2 px-5 text-white rounded-sm bg-purple-500 hover:bg-purple-400 block md:inline-block">
+              Quản lý
+            </a>
+          </Link>
+        ) : (
+          <button
+            onClick={handleBuyProduct}
+            className="py-2 px-5 text-white rounded-sm bg-purple-500 hover:bg-purple-400 block md:inline-block"
+          >
+            Mua
+          </button>
+        )}
       </div>
     </div>
   );
