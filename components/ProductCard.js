@@ -56,14 +56,17 @@ const ProductCard = ({
           </div>
         </a>
       </Link>
-      <p className="text-xl text-center my-2 w-full font-semibold hover:text-gray-700">
+      <p
+        style={{ minHeight: '56px' }}
+        className="text-xl text-center my-2 w-full uppercase font-semibold hover:text-gray-700"
+      >
         <Link href={`/san-pham/${slug}`}>
-          <a>{title}</a>
+          <a>{title.substring(0, 30)}</a>
         </Link>
       </p>
       <div className="flex justify-between text-red-500">
-        <span className="text-lg">
-          Giá:
+        <span className="text-lg font-semibold">
+          Giá:{' '}
           {salePrice === 0
             ? price.toString().substring(0, price.toString().length - 3)
             : salePrice
@@ -71,16 +74,18 @@ const ProductCard = ({
                 .substring(0, salePrice.toString().length - 3)}
           K
         </span>
-        <span className="text-lg">Kho: {inStock}</span>
+        <span className="text-lg font-semibold">Kho: {inStock}</span>
       </div>
       <div className="flex justify-between text-red-500">
-        <span className="text-lg">
-          Đã bán:
-          {sold}
+        <span className="text-lg font-medium">Đã bán: {sold}</span>
+        <span className="text-lg font-medium">
+          Ưng:{' '}
+          {likes.length > 100 ? likes.length : Math.floor(Math.random() * 1000)}
         </span>
-        <span className="text-lg">Ưng: {likes.length}</span>
       </div>
-      <div className="w-full my-2">{description.substring(0, 100)}...</div>
+      <div style={{ minHeight: '96px' }} className="w-full my-2">
+        {description.substring(0, 100)}...
+      </div>
       <div className="flex justify-between my-2 bottom-2">
         <Link href={`/san-pham/${slug}`}>
           <a className="py-2 px-5 text-white rounded-sm bg-indigo-500 hover:bg-indigo-400 block md:inline-block">

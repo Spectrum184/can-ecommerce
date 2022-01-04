@@ -21,7 +21,7 @@ const HighlightProduct = ({ slug }) => {
           ))}
       </div>
       <div className="">
-        {data?.total > 12 && (
+        {data?.total > 1 && (
           <Pagination
             totalPage={data?.total}
             currentPage={currentPage}

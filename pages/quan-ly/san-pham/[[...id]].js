@@ -149,7 +149,7 @@ const ProductManager = () => {
                 name="title"
                 className="border rounded-r px-4 py-2 outline-none flex-1"
                 type="text"
-                placeholder="Tên sản phẩm..."
+                placeholder="Khoảng 25-30 chữ"
                 value={title}
                 onChange={handleChange}
               />
@@ -188,7 +188,7 @@ const ProductManager = () => {
                 name="description"
                 value={description.substring(0, 200)}
                 onChange={handleChange}
-                placeholder="Mô tả..."
+                placeholder="Mô tả khoảng 100 chữ"
                 rows={4}
               ></textarea>
             </div>
@@ -202,6 +202,18 @@ const ProductManager = () => {
                 rows={7}
               ></textarea>
             </div>
+            <p className="w-full text-red-500">
+              Vào link bên dưới, copy nội dung bên trái, chỉnh sửa theo ý sau đó
+              quay lại và dán vào ô nội dung
+              <a
+                href="https://zenoamaro.github.io/react-quill/"
+                target="_blank"
+                rel="noreferrer"
+                className="ml-2 underline hover:text-red-300"
+              >
+                Link
+              </a>
+            </p>
             <div className="flex w-full my-5 justify-between">
               <div className="flex">
                 <span className="text-md border rounded-l px-4 py-2 bg-indigo-400 min-w-fit">

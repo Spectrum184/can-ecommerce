@@ -67,7 +67,7 @@ const Navbar = () => {
             {categories?.length > 0 &&
               categories?.map((category) => (
                 <Link href={`/danh-muc/${category.slug}`} key={category._id}>
-                  <a className="my-1 text-sm text-gray-800 font-medium hover:text-indigo-500 md:mx-4 md:my-0">
+                  <a className="my-1 text-md text-gray-800 font-medium hover:text-indigo-500 md:mx-4 md:my-0">
                     {category.name}
                   </a>
                 </Link>
@@ -75,7 +75,7 @@ const Navbar = () => {
             <Link href={data ? '/gio-hang' : '/gio-hang/1'}>
               <a className="relative my-1 text-gray-800 md:ml-4 md:my-0 hover:text-indigo-500">
                 <svg
-                  className="h-5 w-5"
+                  className="h-6 w-6"
                   viewBox="0 0 24 24"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -89,7 +89,12 @@ const Navbar = () => {
                   />
                 </svg>
                 {cart?.products.length > 0 && (
-                  <span className="absolute top-0 left-0 rounded-full bg-indigo-500 text-white p-1 text-xs"></span>
+                  <span
+                    style={{ top: '-4px' }}
+                    className="absolute animate-pulse text-center left-0 rounded-full bg-indigo-500 text-white p-1 text-xs w-5 h-5"
+                  >
+                    {cart.products.length}
+                  </span>
                 )}
               </a>
             </Link>
@@ -120,7 +125,7 @@ const Navbar = () => {
                   }
                 )}
               >
-                <Link href={`/profile/${data.user._id}`}>
+                <Link href={`/trang-ca-nhan/${data.user._id}`}>
                   <a className="transition-colors duration-200 block px-4 py-2 text-normal text-gray-800 rounded hover:bg-indigo-500 hover:text-white">
                     Trang cá nhân
                   </a>
@@ -173,7 +178,7 @@ const Navbar = () => {
               <a className="relative my-1 text-gray-700 md:my-0 hover:text-indigo-500 cursor-pointer">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
+                  className="h-6 w-6"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"

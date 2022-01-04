@@ -128,7 +128,7 @@ const Cart = () => {
               />
             </span>
             <span className="my-5 w-full text-xl text-red-500 text-md font-semibold">
-              Tổng tiền:
+              Tổng tiền:{' '}
               {total.toLocaleString('it-IT', {
                 style: 'currency',
                 currency: 'VND',
@@ -140,6 +140,9 @@ const Cart = () => {
             >
               Đặt hàng
             </button>
+            <span className="flex my-2 text-md text-red-500">
+              Nếu bạn ở địa chỉ: Hà Nội, Hải Phòng sẽ được free ship
+            </span>
           </div>
         </form>
       </div>

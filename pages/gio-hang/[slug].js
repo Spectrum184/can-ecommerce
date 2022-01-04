@@ -35,7 +35,7 @@ const TemporaryCart = ({ product }) => {
     return (
       <div className="w-full px-0 md:px-10 mt-4 block md:flex pb-6">
         <h1 className="w-full text-center font-semibold mx-auto text-2xl text-gray-700">
-          KHÔNG TỒN TẠI SẢN PHẨM
+          GIỎ HÀNH TRỐNG
         </h1>
       </div>
     );

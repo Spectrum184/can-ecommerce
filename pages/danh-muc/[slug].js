@@ -21,7 +21,7 @@ const Category = ({ slug }) => {
           ))}
       </div>
       <div className="">
-        {result?.total > 12 && (
+        {result?.total > 1 && (
           <Pagination
             onPageChange={(page) => setCurrentPage(page)}
             totalPage={total}

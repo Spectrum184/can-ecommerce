@@ -84,14 +84,14 @@ const CartItem = ({
             </a>
           </Link>
           <p className="text-red-600 font-medium my-2">
-            Giá:
+            Giá:{' '}
             {price.toLocaleString('it-IT', {
               style: 'currency',
               currency: 'VND',
             })}
           </p>
           <p className="text-red-600 font-medium">
-            Tổng tiền:
+            Tổng tiền:{' '}
             {(newQuantity * price).toLocaleString('it-IT', {
               style: 'currency',
               currency: 'VND',

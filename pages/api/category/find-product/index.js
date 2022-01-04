@@ -34,7 +34,10 @@ const findProductByCategory = async (req, res) => {
 
     return res
       .status(200)
-      .json({ products, total: categoryTmp.products.length });
+      .json({
+        products,
+        total: Math.ceil(categoryTmp.products.length / limit),
+      });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
