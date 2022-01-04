@@ -91,3 +91,13 @@ export const useProductByCondition = ({ query, limit, page }) => {
 
   return data;
 };
+
+//fetch data cart by user
+export const useDataCartUser = ({ userId, limit, page }) => {
+  const { data } = useSWR(
+    `cart/find-cart?user=${userId}&limit=${limit}&page=${page}`,
+    fetcher
+  );
+
+  return data;
+};

@@ -188,7 +188,7 @@ const ProductManager = () => {
                 name="description"
                 value={description.substring(0, 200)}
                 onChange={handleChange}
-                placeholder="Mô tả khoảng 100 chữ"
+                placeholder="Mô tả khoảng 100 chữ, tối đa 200 chữ"
                 rows={4}
               ></textarea>
             </div>

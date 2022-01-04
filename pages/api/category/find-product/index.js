@@ -32,12 +32,10 @@ const findProductByCategory = async (req, res) => {
       _id: { $in: arrProduct },
     }).select('-content');
 
-    return res
-      .status(200)
-      .json({
-        products,
-        total: Math.ceil(categoryTmp.products.length / limit),
-      });
+    return res.status(200).json({
+      products,
+      total: Math.ceil(categoryTmp.products.length / Number(limit)),
+    });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }

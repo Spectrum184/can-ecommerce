@@ -25,8 +25,8 @@ export default function Home({ onSale, bestSeller }) {
           </span>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 md:gap-6 gap-0 w-full">
-          {onSale.length > 0 &&
-            onSale.map((product) => (
+          {onSale?.length > 0 &&
+            onSale?.map((product) => (
               <ProductCard key={product._id} {...product} />
             ))}
         </div>
@@ -46,8 +46,8 @@ export default function Home({ onSale, bestSeller }) {
           </span>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 md:gap-6 gap-0 w-full">
-          {bestSeller.length > 0 &&
-            bestSeller.map((product) => (
+          {bestSeller?.length > 0 &&
+            bestSeller?.map((product) => (
               <ProductCard key={product._id} {...product} />
             ))}
         </div>
