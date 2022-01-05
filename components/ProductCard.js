@@ -57,8 +57,8 @@ const ProductCard = ({
         </a>
       </Link>
       <p
-        style={{ minHeight: '56px' }}
         className="text-xl text-center my-2 w-full uppercase font-semibold hover:text-gray-700"
+        style={{ minHeight: '56px' }}
       >
         <Link href={`/san-pham/${slug}`}>
           <a>{title.substring(0, 30)}</a>
@@ -80,10 +80,10 @@ const ProductCard = ({
         <span className="text-lg font-medium">Đã bán: {sold}</span>
         <span className="text-lg font-medium">
           Ưng:{' '}
-          {likes.length > 100 ? likes.length : Math.floor(Math.random() * 1000)}
+          {likes.length > 100 ? likes.length : price.toString().substring(0, 3)}
         </span>
       </div>
-      <div style={{ minHeight: '96px' }} className="w-full my-2">
+      <div className="w-full my-2" style={{ minHeight: '96px' }}>
         {description.substring(0, 100)}...
       </div>
       <div className="flex justify-between my-2 bottom-2">

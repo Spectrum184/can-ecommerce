@@ -1,16 +1,24 @@
 import Head from 'next/head';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { deleteDataAPI, patchDataAPI, postDataAPI } from 'utils/fetch-data';
 import { useCategory } from 'hooks';
 import { toastNotify } from 'utils/toast';
 import { useSWRConfig } from 'swr';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 
 const Setting = () => {
   const [showModalCategory, setShowModalCategory] = useState(false);
   const [category, setCategory] = useState();
   const categories = useCategory();
   const { mutate } = useSWRConfig();
+  const { data } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (data && data.user.role !== 'admin') router.push('/');
+  }, [data, router]);
 
   const onSubmitCategory = async (e) => {
     e.preventDefault();
@@ -35,10 +43,12 @@ const Setting = () => {
   };
 
   const deleteCategory = async (category) => {
-    const res = await deleteDataAPI(`category/${category._id}`);
+    if (confirm('Bạn có chắc chắn xoá k?')) {
+      const res = await deleteDataAPI(`category/${category._id}`);
 
-    toastNotify(res);
-    mutate('category');
+      toastNotify(res);
+      mutate('category');
+    }
   };
 
   return (

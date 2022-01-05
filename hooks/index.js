@@ -101,3 +101,20 @@ export const useDataCartUser = ({ userId, limit, page }) => {
 
   return data;
 };
+
+//fetch data order
+export const useDataOrder = ({ type, limit, page }) => {
+  const { data } = useSWR(
+    `order/find-order?type=${type}&limit=${limit}&page=${page}`,
+    fetcher
+  );
+
+  return data;
+};
+
+//fetch data cart
+export const useCartData = (id) => {
+  const { data } = useSWR(`cart/${id}`, fetcher);
+
+  return data;
+};

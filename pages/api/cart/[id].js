@@ -1,4 +1,5 @@
 import Cart from 'models/cartModel';
+import OrderTemporary from 'models/orderTemporaryModel';
 
 import { connectDB } from 'utils/connect-db';
 import { getSession } from 'next-auth/react';
@@ -16,8 +17,17 @@ export default async function handler(req, res) {
     case 'PATCH':
       await deleteProductInCart(req, res, user);
       break;
+
     case 'DELETE':
       await deleteCart(req, res, user);
+      break;
+
+    case 'GET':
+      await getCart(req, res);
+      break;
+
+    case 'PUT':
+      await editCartProducts(req, res, user);
       break;
 
     default:
@@ -60,6 +70,43 @@ const deleteCart = async (req, res, user) => {
     await Cart.findByIdAndDelete(id);
 
     return res.status(200).json({ message: 'Xoá thành công!' });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+const getCart = async (req, res) => {
+  try {
+    const { id } = req.query;
+    const newId = id.substr(1);
+    let cart;
+
+    if (id.charAt(0) === '4') {
+      cart = await OrderTemporary.findById(newId);
+    } else {
+      cart = await Cart.findById(newId);
+    }
+
+    return res.status(200).json(cart);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+const editCartProducts = async (req, res) => {
+  try {
+    if (!user && user.role !== 'admin')
+      return res.status(400).json({ error: 'Bạn không có quyền xoá!' });
+
+    const { id } = req.query;
+    const { products } = req.body;
+    const newId = id.substr(1);
+    if (id.charAt(0) === '4') {
+      await OrderTemporary.findByIdAndUpdate(newId, { products });
+    } else {
+      await Cart.findByIdAndUpdate(newId, { products });
+    }
+    return res.status(200).json({ message: 'Sửa/Xoá thành công' });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
