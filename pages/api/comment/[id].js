@@ -24,14 +24,15 @@ export default async function handler(req, res) {
 
 const deleteComment = async (req, res, user) => {
   try {
-    if (!user || user.role !== 'admin')
-      return res.status(400).json({ error: 'Bạn không có quyền xoá!' });
+    if (user || user.role === 'admin') {
+      const { id } = req.query;
 
-    const { id } = req.query;
+      await Comment.findByIdAndDelete(id);
 
-    await Comment.findByIdAndDelete(id);
+      return res.status(200).json({ message: 'Xoá thành công!' });
+    }
 
-    return res.status(200).json({ message: 'Xoá thành công!' });
+    return res.status(400).json({ error: 'Bạn không có quyền xoá!' });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
