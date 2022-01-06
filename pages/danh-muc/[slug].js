@@ -4,6 +4,7 @@ import Head from 'next/head';
 
 import { useListProductCategory } from 'hooks';
 import { useState } from 'react';
+import Footer from 'components/Footer';
 
 const Category = ({ slug }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -24,7 +25,7 @@ const Category = ({ slug }) => {
             <ProductCard key={product._id} {...product} />
           ))}
       </div>
-      <div className="">
+      <div className="mb-4">
         {result?.total > 1 && (
           <Pagination
             onPageChange={(page) => setCurrentPage(page)}
@@ -33,6 +34,7 @@ const Category = ({ slug }) => {
           />
         )}
       </div>
+      <Footer />
     </div>
   );
 };

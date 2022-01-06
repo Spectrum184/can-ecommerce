@@ -1,4 +1,5 @@
 import Carousel from 'components/Carousel';
+import Footer from 'components/Footer';
 import ProductCard from 'components/ProductCard';
 import Link from 'next/link';
 
@@ -52,6 +53,7 @@ export default function Home({ onSale, bestSeller }) {
             ))}
         </div>
       </section>
+      <Footer />
     </div>
   );
 }

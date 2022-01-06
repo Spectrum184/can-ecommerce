@@ -4,13 +4,14 @@ import Link from 'next/link';
 import CommentDisplay from 'components/CommentDisplay';
 import Pagination from 'components/Pagination';
 
-import { getDataAPI, postDataAPI } from 'utils/fetch-data';
+import { deleteDataAPI, getDataAPI, postDataAPI } from 'utils/fetch-data';
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { toastNotify } from 'utils/toast';
 import { useRouter } from 'next/router';
 import { useSWRConfig } from 'swr';
 import { useDataComment } from 'hooks';
+import Footer from 'components/Footer';
 
 const Product = ({ product }) => {
   const [imageTab, setImageTab] = useState(0);
@@ -70,6 +71,16 @@ const Product = ({ product }) => {
       mutate(`comment?productId=${product._id}&limit=10&page=${currentPage}`);
   };
 
+  const onDeleteProduct = async () => {
+    if (confirm('Chắc chắn xoá?')) {
+      const res = await deleteDataAPI(`product/${product._id}`);
+
+      toastNotify(res);
+
+      if (res.message) router.push('/');
+    }
+  };
+
   return (
     <div className="w-full pb-6">
       <Head>
@@ -83,6 +94,7 @@ const Product = ({ product }) => {
         <meta property="og:locale" content="vi_VN"></meta>
         <meta property="og:description" content={product.description}></meta>
         <meta name="keywords" content=""></meta>
+        <meta property="og:image" content={product.images[0].secureUrl}></meta>
       </Head>
       <section id="product-image" className="w-full mt-4 flex flex-wrap">
         <div className="w-full md:w-2/3 mb-3 md:mb-0">
@@ -174,7 +186,10 @@ const Product = ({ product }) => {
                     Quản lý
                   </a>
                 </Link>
-                <button className="py-3 my-1 px-6 text-white rounded-lg bg-red-500 text-center w-full shadow-lg block md:inline-block">
+                <button
+                  onClick={onDeleteProduct}
+                  className="py-3 my-1 px-6 text-white rounded-lg bg-red-500 text-center w-full shadow-lg block md:inline-block"
+                >
                   Xoá
                 </button>
               </div>
@@ -261,6 +276,7 @@ const Product = ({ product }) => {
           </div>
         </div>
       </section>
+      <Footer />
     </div>
   );
 };
