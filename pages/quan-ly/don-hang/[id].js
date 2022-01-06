@@ -27,7 +27,7 @@ const OrderDetail = ({ id }) => {
         (p) => p.productId !== product.productId
       );
 
-      const res = await putDataAPI(`cart/${id}`, products);
+      const res = await putDataAPI(`cart/${id}`, { products });
 
       toastNotify(res);
       mutate(`cart/${id}`);
@@ -50,14 +50,29 @@ const OrderDetail = ({ id }) => {
       return p;
     });
 
-    const res = await putDataAPI(`cart/${id}`, products);
+    console.log(products);
+
+    const res = await putDataAPI(`cart/${id}`, { products });
 
     toastNotify(res);
     mutate(`cart/${id}`);
+    setShowModal(false);
   };
 
   return (
     <div className="w-full px-0 md:px-10 mt-4 pb-6">
+      <p className="w-full mx-auto text-center mb-2 font-bold text-xl">
+        {dataCart?.user?._id && (
+          <span>
+            <span>Đặt bởi: </span>
+            <Link href={`/trang-ca-nhan/${dataCart?.user._id}`}>
+              <a className="hover:underline cursor-pointer">
+                {dataCart?.user.name}
+              </a>
+            </Link>
+          </span>
+        )}
+      </p>
       <table className="rounded-t-lg w-full font-bold text-base bg-indigo-400 text-gray-800">
         <thead>
           <tr className="text-left">
@@ -68,8 +83,8 @@ const OrderDetail = ({ id }) => {
           </tr>
         </thead>
         <tbody>
-          {dataCart?.products.length > 0 &&
-            dataCart.products.map((product) => (
+          {dataCart?.products?.length > 0 &&
+            dataCart?.products.map((product) => (
               <tr
                 className="bg-gray-100 border-b border-indigo-200"
                 key={product.productId}
@@ -134,7 +149,7 @@ const OrderDetail = ({ id }) => {
                     onChange={(e) =>
                       setProduct({
                         ...product,
-                        [e.target.name]: e.target.value,
+                        [e.target.name]: Number(e.target.value),
                       })
                     }
                   />
@@ -152,7 +167,7 @@ const OrderDetail = ({ id }) => {
                     onChange={(e) =>
                       setProduct({
                         ...product,
-                        [e.target.name]: e.target.value,
+                        [e.target.name]: Number(e.target.value),
                       })
                     }
                   />

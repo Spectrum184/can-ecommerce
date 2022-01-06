@@ -118,3 +118,13 @@ export const useCartData = (id) => {
 
   return data;
 };
+
+//fetch data comments
+export const useDataComment = ({ productId, limit, page }) => {
+  const { data } = useSWR(
+    `comment?productId=${productId}&limit=${limit}&page=${page}`,
+    fetcher
+  );
+
+  return data;
+};

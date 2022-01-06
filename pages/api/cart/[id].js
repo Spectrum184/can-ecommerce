@@ -1,5 +1,6 @@
 import Cart from 'models/cartModel';
 import OrderTemporary from 'models/orderTemporaryModel';
+import User from 'models/userModel';
 
 import { connectDB } from 'utils/connect-db';
 import { getSession } from 'next-auth/react';
@@ -80,26 +81,29 @@ const getCart = async (req, res) => {
     const { id } = req.query;
     const newId = id.substr(1);
     let cart;
+    let user = '';
 
     if (id.charAt(0) === '4') {
       cart = await OrderTemporary.findById(newId);
     } else {
       cart = await Cart.findById(newId);
+      user = await User.findById(cart.userId);
     }
 
-    return res.status(200).json(cart);
+    return res.status(200).json({ ...cart._doc, user });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
 };
 
-const editCartProducts = async (req, res) => {
+const editCartProducts = async (req, res, user) => {
   try {
     if (!user && user.role !== 'admin')
       return res.status(400).json({ error: 'Bạn không có quyền xoá!' });
 
     const { id } = req.query;
     const { products } = req.body;
+
     const newId = id.substr(1);
     if (id.charAt(0) === '4') {
       await OrderTemporary.findByIdAndUpdate(newId, { products });

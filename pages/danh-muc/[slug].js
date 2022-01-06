@@ -1,5 +1,6 @@
 import Pagination from 'components/Pagination';
 import ProductCard from 'components/ProductCard';
+import Head from 'next/head';
 
 import { useListProductCategory } from 'hooks';
 import { useState } from 'react';
@@ -14,6 +15,9 @@ const Category = ({ slug }) => {
 
   return (
     <div className="w-full mt-4 px-0 md:px-10">
+      <Head>
+        <title>Danh mục</title>
+      </Head>
       <div className="grid grid-cols-1 md:grid-cols-4 md:gap-6 gap-0 w-full">
         {result?.products.length > 0 &&
           result?.products.map((product) => (

@@ -97,7 +97,7 @@ const OrderManager = () => {
             </tr>
           </thead>
           <tbody>
-            {dataOrder?.orders.length > 0 &&
+            {dataOrder?.orders?.length > 0 &&
               dataOrder.orders.map((order) => (
                 <tr
                   className="bg-gray-100 border-b border-indigo-200"
