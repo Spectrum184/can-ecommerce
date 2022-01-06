@@ -128,3 +128,13 @@ export const useDataComment = ({ productId, limit, page }) => {
 
   return data;
 };
+
+//fetch data user
+export const useDataUser = ({ username, limit, page }) => {
+  const { data } = useSWR(
+    `user/find-user?username=${username}&limit=${limit}&page=${page}`,
+    fetcher
+  );
+
+  return data;
+};

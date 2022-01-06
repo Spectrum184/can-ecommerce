@@ -139,13 +139,13 @@ const Navbar = () => {
                       </a>
                     </Link>
                     <hr></hr>
-                    <Link href={`/profile/${data.user._id}`}>
+                    <Link href={`/quan-ly/dashboard`}>
                       <a className="transition-colors duration-200 block px-4 py-2 text-normal text-gray-800 rounded hover:bg-indigo-500 hover:text-white">
                         Dashboard
                       </a>
                     </Link>
                     <hr></hr>
-                    <Link href={`/profile/${data.user._id}`}>
+                    <Link href={`/quan-ly/thanh-vien`}>
                       <a className="transition-colors duration-200 block px-4 py-2 text-normal text-gray-800 rounded hover:bg-indigo-500 hover:text-white">
                         Thành viên
                       </a>

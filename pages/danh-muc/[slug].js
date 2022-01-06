@@ -14,7 +14,7 @@ const Category = ({ slug }) => {
   });
 
   return (
-    <div className="w-full mt-4 px-0 md:px-10">
+    <div className="w-full mt-4 px-0 md:px-10 pb-6">
       <Head>
         <title>Danh mục</title>
       </Head>

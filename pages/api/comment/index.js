@@ -30,7 +30,7 @@ const findComment = async (req, res) => {
       .skip(start)
       .limit(Number(limit));
 
-    if (!comments)
+    if (comments.length === 0)
       return res.status(200).json({
         total: 0,
         comments: [],

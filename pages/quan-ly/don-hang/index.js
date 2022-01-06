@@ -89,6 +89,7 @@ const OrderManager = () => {
         <table className="rounded-t-lg w-full font-bold text-base bg-indigo-400 text-gray-800">
           <thead>
             <tr className="text-left">
+              <th className="px-4 py-3">Thông tin</th>
               <th className="px-4 py-3">Địa chỉ</th>
               <th className="px-4 py-3">Số điện thoại</th>
               <th className="px-4 py-3">Trạng thái</th>
@@ -108,9 +109,10 @@ const OrderManager = () => {
                       className="hover:underline hover:text-gray-500 cursor-pointer"
                       onClick={() => showOrderDetail(order)}
                     >
-                      {order.address}
+                      Chi tiết
                     </span>
                   </td>
+                  <td className="px-4 py-3">{order.address}</td>
                   <td className="px-4 py-3">{order.mobile}</td>
                   <td className="px-4 py-3">{order.status}</td>
                   <td className="px-4 py-3">
