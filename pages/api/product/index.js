@@ -1,7 +1,6 @@
 import Category from 'models/categoryModel';
 import Product from 'models/productModel';
 import slugify from 'slugify';
-import mongoose from 'mongoose';
 
 import { connectDB } from 'utils/connect-db';
 import { adminMiddleware } from 'middlewares/admin';
@@ -64,7 +63,7 @@ const createProduct = async (req, res) => {
     const categoryTmp = await Category.findOne(
       { _id: category },
       {
-        $push: { products: mongoose.Types.ObjectId(newProduct._id) },
+        $push: { products: newProduct._id },
       },
       { new: true }
     );
