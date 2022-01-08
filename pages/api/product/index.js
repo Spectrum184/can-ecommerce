@@ -58,6 +58,10 @@ const createProduct = async (req, res) => {
       slug,
     });
 
+    await newProduct.save();
+
+    console.log(newProduct);
+
     const categoryTmp = await Category.findByIdAndUpdate(
       category,
       {
@@ -68,8 +72,6 @@ const createProduct = async (req, res) => {
 
     if (!categoryTmp)
       return res.status(400).json({ error: 'Chưa chọn danh mục!' });
-
-    await newProduct.save();
 
     return res.status(200).json({ message: 'Tạo sản phẩm thành công!' });
   } catch (error) {
