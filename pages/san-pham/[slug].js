@@ -93,7 +93,10 @@ const Product = ({ product }) => {
         <meta property="og:type" content="website"></meta>
         <meta property="og:locale" content="vi_VN"></meta>
         <meta property="og:description" content={product.description}></meta>
-        <meta name="keywords" content=""></meta>
+        <meta
+          name="keywords"
+          content="Aichi xinh, mỹ phẩm, thực phẩm chức năng, trắng da, phụ kiện, mẹ và bé, hàng Nhật, kem lẻ, đau xương khớp, viêm xoang, thời trang"
+        ></meta>
         <meta property="og:image" content={product.images[0].secureUrl}></meta>
       </Head>
       <section id="product-image" className="w-full mt-4 flex flex-wrap">

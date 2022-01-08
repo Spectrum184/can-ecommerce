@@ -5,17 +5,18 @@ import { useState, useEffect, useCallback } from 'react';
 
 const Carousel = () => {
   const [images, setImages] = useState([
-    'can-ecommerce/26011398180_97d7ef9b16_b_ungjxw.jpg',
-    'can-ecommerce/26218004721_1c563a2a86_b_kgznfw.jpg',
-    'can-ecommerce/50101150008_8b69e404f9_b_virto7.jpg',
-    'can-ecommerce/van_tho_plxpax.jpg',
+    'can-ecommerce/lofi_m31jt2.png',
+    'can-ecommerce/133112871_3999586296726475_3809288913763950404_o_luhj2g.jpg',
+    'can-ecommerce/133112871_3999586296726475_3809288913763950404_o_luhj2g.jpg',
+    'can-ecommerce/wallpaperbetter.com_1280x720_ckvfkt.jpg',
+    'can-ecommerce/892c8ebd1bb5826d29be0f9374d424bf_r5ybt5.jpg',
   ]);
   const [imageIndex, setImageIndex] = useState(0);
   const router = useRouter();
 
   const handleNextImage = useCallback(() => {
     setImageIndex((index) => {
-      if (index === 3) return 0;
+      if (index === 4) return 0;
       return index + 1;
     });
   }, []);
@@ -30,7 +31,7 @@ const Carousel = () => {
 
   const handlePreviousImage = () => {
     setImageIndex((index) => {
-      if (index === 0) return 3;
+      if (index === 0) return 4;
       return index - 1;
     });
   };
