@@ -1,6 +1,7 @@
 import Category from 'models/categoryModel';
 import Product from 'models/productModel';
 import slugify from 'slugify';
+import mongoose from 'mongoose';
 
 import { connectDB } from 'utils/connect-db';
 import { adminMiddleware } from 'middlewares/admin';
@@ -60,12 +61,10 @@ const createProduct = async (req, res) => {
 
     await newProduct.save();
 
-    console.log(newProduct);
-
-    const categoryTmp = await Category.findByIdAndUpdate(
-      category,
+    const categoryTmp = await Category.findOne(
+      { _id: category },
       {
-        $push: { products: newProduct._id },
+        $push: { products: mongoose.Types.ObjectId(newProduct._id) },
       },
       { new: true }
     );
@@ -75,6 +74,7 @@ const createProduct = async (req, res) => {
 
     return res.status(200).json({ message: 'Tạo sản phẩm thành công!' });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({ error: error.message });
   }
 };
