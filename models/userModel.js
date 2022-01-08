@@ -25,7 +25,7 @@ const userSchema = mongoose.Schema(
     },
     avatar: {
       type: String,
-      default: 'can-ecommerce/default_gxx9xn.jpg',
+      default: 'can-ecommerce/avartaaaaa_p5wze4.jpg',
     },
   },
   {
