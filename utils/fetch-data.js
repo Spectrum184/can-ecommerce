@@ -1,4 +1,4 @@
-const BASE_URL = process.env.BASE_URL;
+const BASE_URL = 'https://aichi-xinh.vercel.app';
 
 export const getDataAPI = async (url) => {
   const res = await fetch(`${BASE_URL}/api/${url}`, {
