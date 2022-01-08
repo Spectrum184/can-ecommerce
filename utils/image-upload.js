@@ -4,15 +4,20 @@ export const imageUpload = async (images) => {
   for (const image of images) {
     const formData = new FormData();
     formData.append('file', image);
-    formData.append('upload_preset', process.env.CLOUD_UPDATE_PRESET);
-    formData.append('cloud_name', process.env.CLOUD_NAME);
+    formData.append('upload_preset', 'pxvcb9nk');
+    formData.append('cloud_name', 'can-ecommerce');
 
-    const res = await fetch(process.env.CLOUD_API, {
-      method: 'POST',
-      body: formData,
-    });
+    const res = await fetch(
+      'https://api.cloudinary.com/v1_1/can-ecommerce/upload',
+      {
+        method: 'POST',
+        body: formData,
+      }
+    );
 
     const data = await res.json();
+
+    console.log(data);
 
     imgArr.push({ secureUrl: data.secure_url, url: data.public_id });
   }

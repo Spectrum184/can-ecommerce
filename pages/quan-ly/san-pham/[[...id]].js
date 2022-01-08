@@ -217,7 +217,7 @@ const ProductManager = () => {
             <div className="flex w-full my-5 justify-between">
               <div className="flex">
                 <span className="text-md border rounded-l px-4 py-2 bg-indigo-400 min-w-fit">
-                  Giá:
+                  Danh mục:
                 </span>
                 <select
                   value={category}
