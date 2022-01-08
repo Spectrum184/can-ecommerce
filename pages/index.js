@@ -10,29 +10,7 @@ export default function Home({ onSale, bestSeller }) {
   return (
     <div className="w-full px-0 md:px-10">
       <Head>
-        <meta
-          name="description"
-          content="Hệ thống bán lẻ mỹ phẩm chính hãng, chăm sóc sức khoẻ, mẹ và bé, phụ kiện, giá tốt, dịch vụ hàng đầu"
-        />
-        <meta property="og:title" content="Aichi xinh"></meta>
-        <meta content="INDEX,FOLLOW" name="robots"></meta>
-        <meta name="author" content="Thanh đẹp trai"></meta>
-        <meta name="copyright" content="Thanh đẹp trai"></meta>
-        <meta property="og:type" content="website"></meta>
-        <meta property="og:locale" content="vi_VN"></meta>
-        <meta
-          property="og:description"
-          content="Hệ thống bán lẻ mỹ phẩm chính hãng, chăm sóc sức khoẻ, mẹ và bé, phụ kiện, giá tốt, dịch vụ hàng đầu"
-        ></meta>
         <title>Aichi xinh</title>
-        <meta
-          name="keywords"
-          content="Aichi xinh, mỹ phẩm, thực phẩm chức năng, trắng da, phụ kiện, mẹ và bé, hàng Nhật, kem lẻ, đau xương khớp, viêm xoang, thời trang"
-        ></meta>
-        <meta
-          property="og:image"
-          content="https://res.cloudinary.com/can-ecommerce/image/upload/v1641621918/can-ecommerce/lofi_m31jt2.png"
-        ></meta>
       </Head>
       <div className="w-full">
         <Carousel />
