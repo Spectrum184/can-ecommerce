@@ -61,7 +61,7 @@ const ProductCard = ({
         style={{ minHeight: '56px' }}
       >
         <Link href={`/san-pham/${slug}`}>
-          <a>{title.substring(0, 30)}</a>
+          <a>{title.substring(0, 25)}</a>
         </Link>
       </p>
       <div className="flex justify-between text-red-500">
