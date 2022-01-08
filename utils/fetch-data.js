@@ -1,7 +1,5 @@
-const BASE_URL = process.env.BASE_URL;
-
 export const getDataAPI = async (url) => {
-  const res = await fetch(`${BASE_URL}/api/${url}`, {
+  const res = await fetch(`/api/${url}`, {
     method: 'GET',
   });
   const data = await res.json();
@@ -10,7 +8,7 @@ export const getDataAPI = async (url) => {
 };
 
 export const postDataAPI = async (url, postData) => {
-  const res = await fetch(`${BASE_URL}/api/${url}`, {
+  const res = await fetch(`/api/${url}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -23,7 +21,7 @@ export const postDataAPI = async (url, postData) => {
 };
 
 export const patchDataAPI = async (url, patchData) => {
-  const res = await fetch(`${BASE_URL}/api/${url}`, {
+  const res = await fetch(`/api/${url}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -36,7 +34,7 @@ export const patchDataAPI = async (url, patchData) => {
 };
 
 export const putDataAPI = async (url, putData) => {
-  const res = await fetch(`${BASE_URL}/api/${url}`, {
+  const res = await fetch(`/api/${url}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -49,7 +47,7 @@ export const putDataAPI = async (url, putData) => {
 };
 
 export const deleteDataAPI = async (url) => {
-  const res = await fetch(`${BASE_URL}/api/${url}`, {
+  const res = await fetch(`/api/${url}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
