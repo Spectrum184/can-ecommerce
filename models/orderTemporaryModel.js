@@ -21,7 +21,7 @@ const orderSchema = new mongoose.Schema(
     ],
     status: {
       type: String,
-      default: 'đang kiểm tra',
+      default: 'Đang kiểm tra',
     },
     checked: {
       type: Boolean,

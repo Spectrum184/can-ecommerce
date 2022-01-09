@@ -7,7 +7,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { toast } from 'react-toastify';
 import { useSession } from 'next-auth/react';
 import { imageUpload } from 'utils/image-upload';
-import { getDataAPI, postDataAPI } from 'utils/fetch-data';
+import { getDataAPI, postDataAPI, putDataAPI } from 'utils/fetch-data';
 import { toastNotify } from 'utils/toast';
 
 const ProductManager = () => {
@@ -93,6 +93,8 @@ const ProductManager = () => {
     setImages(newArr);
   };
 
+  console.log(product);
+
   const onSubmit = async (e) => {
     e.preventDefault();
 
@@ -116,6 +118,10 @@ const ProductManager = () => {
     let res;
 
     if (onEdit) {
+      res = await putDataAPI(`product/${product._id}`, {
+        ...product,
+        images: [...imgOldURL, ...media],
+      });
     } else {
       res = await postDataAPI('product', {
         ...product,

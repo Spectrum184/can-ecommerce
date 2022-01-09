@@ -93,7 +93,7 @@ const ProductCard = ({
           </a>
         </Link>
         {data?.user.role === 'admin' ? (
-          <Link href={`quan-ly/san-pham/${slug}`}>
+          <Link href={`/quan-ly/san-pham/${slug}`}>
             <a className="py-2 px-5 text-white rounded-sm bg-purple-500 hover:bg-purple-400 block md:inline-block">
               Quản lý
             </a>

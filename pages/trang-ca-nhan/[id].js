@@ -118,30 +118,32 @@ const Profile = ({ user, id }) => {
               className="object-cover"
               priority
             ></Image>
-            <span className="absolute bottom-0 h-10 w-full cursor-pointer">
-              <input
-                className="w-full h-full cursor-pointer absolute opacity-0"
-                type="file"
-                name="file"
-                id="file_up"
-                accept="image/*"
-                onChange={changeAvatar}
-              />
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-slate-100 bottom-2 absolute right-1/2 hover:text-indigo-500 cursor-pointer"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+            {data?.user._id === _id && (
+              <span className="absolute bottom-0 h-10 w-full cursor-pointer">
+                <input
+                  className="w-full h-full cursor-pointer absolute opacity-0"
+                  type="file"
+                  name="file"
+                  id="file_up"
+                  accept="image/*"
+                  onChange={changeAvatar}
                 />
-              </svg>
-            </span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6 text-slate-100 bottom-2 absolute right-1/2 hover:text-indigo-500 cursor-pointer"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                  />
+                </svg>
+              </span>
+            )}
           </div>
 
           <h1 className="text-gray-900 font-bold text-xl leading-8 my-1">
