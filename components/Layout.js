@@ -10,7 +10,7 @@ const Layout = ({ children }) => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <Navbar />
-      <div className="max-w-screen-xl px-6 mx-auto pt-14">{children}</div>
+      <div className="max-w-screen-xl px-6 mx-auto pt-16">{children}</div>
     </div>
   );
 };

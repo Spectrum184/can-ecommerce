@@ -178,7 +178,9 @@ const Product = ({ product }) => {
             <div className="w-full text-lg my-2 font-bold">
               Lượt ưng:
               <span className="text-red-500 mx-2 font-bold">
-                {product.likes.length}
+                {product.likes.length > 100
+                  ? product.likes.length
+                  : product.price.toString().substring(0, 3)}
               </span>
             </div>
 

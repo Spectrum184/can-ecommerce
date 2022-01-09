@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import slugify from 'slugify';
+import Pagination from 'components/Pagination';
 
 import { getDataAPI, patchDataAPI } from 'utils/fetch-data';
 import { useSession } from 'next-auth/react';
@@ -11,7 +12,6 @@ import { imageUpload } from 'utils/image-upload';
 import { toastNotify } from 'utils/toast';
 import { registerValidate } from 'utils/validate';
 import { useDataCartUser } from 'hooks';
-import Pagination from 'components/Pagination';
 
 const Profile = ({ user, id }) => {
   const initialState = {
