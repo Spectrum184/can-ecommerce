@@ -14,15 +14,18 @@ const Cart = () => {
   const initialState = {
     address: '',
     mobile: '',
+    fixedAddress: '',
   };
 
   const [total, setTotal] = useState(0);
   const [cartData, setCartData] = useState();
   const [deliverInfo, setDeliverInfo] = useState(initialState);
-  const { address, mobile } = deliverInfo;
+  const { address, mobile, fixedAddress } = deliverInfo;
   const { mutate } = useSWRConfig();
   const cart = useCart();
   const router = useRouter();
+
+  console.log(deliverInfo);
 
   useEffect(() => {
     if (cart) setCartData(cart);
@@ -64,7 +67,11 @@ const Cart = () => {
       return;
     }
 
-    const res = await postDataAPI('order', { cartData, address, mobile });
+    const res = await postDataAPI('order', {
+      cartData,
+      address: fixedAddress ? fixedAddress : address,
+      mobile,
+    });
 
     toastNotify(res);
     if (res.message) {
@@ -127,6 +134,38 @@ const Cart = () => {
                 type="text"
               />
             </span>
+            <span className="text-lg">Địa chỉ cố định:</span>
+            <span className="flex mb-5 text-md">
+              <select
+                value={fixedAddress}
+                onChange={handleInput}
+                name="fixedAddress"
+                className="text-md w-full border rounded-r px-4 py-2 bg-white hover:border-gray-400 focus:outline-none appearance-none"
+              >
+                <option value="">Lựa chọn</option>
+                <option value="Khu du lịch Đồ Sơn, Vạn Hương, Hải Phòng">
+                  Khu du lịch Đồ Sơn, Vạn Hương, Hải Phòng
+                </option>
+                <option value="Cát Bi, Hải An, Hải Phòng">
+                  Cát Bi, Hải An, Hải Phòng
+                </option>
+                <option value="Cát Bà, Cát Hải, Hải Phòng">
+                  Cát Bà, Cát Hải, Hải Phòng
+                </option>
+                <option value="Ốc Thuỷ Dương, 30/262 Lạc Tray">
+                  Ốc Thuỷ Dương, 30/262 Lạc Tray
+                </option>
+                <option value="Lẩu cua đồng 188 Văn Cao">
+                  Lẩu cua đồng 188 Văn Cao
+                </option>
+                <option value="Bánh mỳ cay 37 Đinh Tiên Hoàng">
+                  Bánh mỳ cay 37 Đinh Tiên Hoàng
+                </option>
+                <option value="Bún cá cay 21 Trần Phú">
+                  Bún cá cay 21 Trần Phú
+                </option>
+              </select>
+            </span>
             <span className="my-5 w-full text-xl text-red-500 text-md font-semibold">
               Tổng tiền:{' '}
               {total.toLocaleString('it-IT', {
@@ -141,7 +180,8 @@ const Cart = () => {
               Đặt hàng
             </button>
             <span className="flex my-2 text-md text-red-500">
-              Nếu bạn ở địa chỉ: Hà Nội, Hải Phòng sẽ được free ship
+              Lấy hàng tại các địa chỉ cố định bên trên sẽ được giao hàng nhanh
+              hơn!
             </span>
           </div>
         </form>

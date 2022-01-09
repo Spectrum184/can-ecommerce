@@ -101,7 +101,7 @@ const Product = ({ product }) => {
       </Head>
       <section id="product-image" className="w-full mt-4 flex flex-wrap">
         <div className="w-full md:w-2/3 mb-3 md:mb-0">
-          <div className="w-full relative mb-4 h-96">
+          <div className="w-full relative mb-4 h-96 md:h-256">
             <Image
               src={product.images[imageTab].url}
               layout="fill"

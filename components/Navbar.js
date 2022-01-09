@@ -19,8 +19,14 @@ const Navbar = () => {
         <div className="flex justify-between items-center">
           <div>
             <Link href="/">
-              <a className="text-gray-800 text-xl font-bold md:text-2xl hover:text-gray-700">
-                CẦN
+              <a className="">
+                <Image
+                  src="can-ecommerce/Logo_2_xc7pmu.jpg"
+                  alt="logo"
+                  width={40}
+                  height={40}
+                  priority
+                ></Image>
               </a>
             </Link>
           </div>

@@ -35,3 +35,20 @@ a {
 .loader div:nth-child(3) {
   animation-delay: 0.6s;
 }
+
+/* ----------Zalo Icon--------- */
+.st0 {
+  fill: #fdfefe;
+}
+.st1 {
+  fill: #0180c7;
+}
+.st2 {
+  fill: #0172b1;
+}
+.st3 {
+  fill: none;
+  stroke: #0180c7;
+  stroke-width: 2;
+  stroke-miterlimit: 10;
+}

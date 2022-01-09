@@ -15,9 +15,10 @@ const TemporaryCart = ({ product }) => {
   const initialState = {
     address: '',
     mobile: '',
+    fixedAddress: '',
   };
   const [deliverInfo, setDeliverInfo] = useState(initialState);
-  const { address, mobile } = deliverInfo;
+  const { address, mobile, fixedAddress } = deliverInfo;
   const { data } = useSession();
   const [newQuantity, setNewQuantity] = useState(1);
 
@@ -58,7 +59,7 @@ const TemporaryCart = ({ product }) => {
 
     const res = await postDataAPI('order-temporary', {
       product: newProduct,
-      address,
+      address: fixedAddress ? fixedAddress : address,
       mobile,
     });
 
@@ -162,6 +163,38 @@ const TemporaryCart = ({ product }) => {
                 className="field text-md text-gray-600 p-1 px-3 rounded-r w-full border border-gray-500"
                 type="text"
               />
+            </span>
+            <span className="text-lg">Địa chỉ cố định:</span>
+            <span className="flex mb-5 text-md">
+              <select
+                value={fixedAddress}
+                onChange={handleInput}
+                name="fixedAddress"
+                className="text-md w-full border rounded-r px-4 py-2 bg-white hover:border-gray-400 focus:outline-none appearance-none"
+              >
+                <option value="">Lựa chọn</option>
+                <option value="Khu du lịch Đồ Sơn, Vạn Hương, Hải Phòng">
+                  Khu du lịch Đồ Sơn, Vạn Hương, Hải Phòng
+                </option>
+                <option value="Cát Bi, Hải An, Hải Phòng">
+                  Cát Bi, Hải An, Hải Phòng
+                </option>
+                <option value="Cát Bà, Cát Hải, Hải Phòng">
+                  Cát Bà, Cát Hải, Hải Phòng
+                </option>
+                <option value="Ốc Thuỷ Dương, 30/262 Lạc Tray">
+                  Ốc Thuỷ Dương, 30/262 Lạc Tray
+                </option>
+                <option value="Lẩu cua đồng 188 Văn Cao">
+                  Lẩu cua đồng 188 Văn Cao
+                </option>
+                <option value="Bánh mỳ cay 37 Đinh Tiên Hoàng">
+                  Bánh mỳ cay 37 Đinh Tiên Hoàng
+                </option>
+                <option value="Bún cá cay 21 Trần Phú">
+                  Bún cá cay 21 Trần Phú
+                </option>
+              </select>
             </span>
             <span className="my-5 w-full text-xl text-red-500 text-md font-semibold">
               Tổng tiền:

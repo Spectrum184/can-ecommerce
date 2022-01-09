@@ -1,6 +1,7 @@
 import Order from 'models/orderModel';
 import OrderTemporary from 'models/orderTemporaryModel';
 import Cart from 'models/cartModel';
+import Product from 'models/productModel';
 
 import { connectDB } from 'utils/connect-db';
 import { adminMiddleware } from 'middlewares/admin';
@@ -41,6 +42,14 @@ const editOrder = async (req, res) => {
         },
         { new: true }
       );
+
+      if (completed) {
+        const { productId, quantity } = req.body.products[0];
+
+        await Product.findByIdAndUpdate(productId, {
+          $inc: { sold: quantity },
+        });
+      }
     } else {
       await Order.findByIdAndUpdate(
         id,
@@ -52,6 +61,22 @@ const editOrder = async (req, res) => {
         },
         { new: true }
       );
+
+      if (completed) {
+        const { cart } = req.body;
+
+        const cartData = await Cart.findOne({ _id: cart });
+
+        if (cartData) {
+          const { products } = cartData;
+
+          for (const product of products) {
+            await Product.findByIdAndUpdate(product.productId, {
+              $inc: { sold: product.quantity },
+            });
+          }
+        }
+      }
     }
 
     return res.status(200).json({ message: 'Chỉnh sửa thành công' });

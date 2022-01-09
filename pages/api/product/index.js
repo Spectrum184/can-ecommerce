@@ -46,6 +46,8 @@ const createProduct = async (req, res) => {
     if (productTmp)
       return res.status(400).json({ error: 'Sản phẩm này đã tồn tại!' });
 
+    const sold = Math.floor(Math.random() * (1000 - 500) + 500);
+
     const newProduct = new Product({
       title,
       price,
@@ -56,6 +58,7 @@ const createProduct = async (req, res) => {
       inStock,
       images,
       slug,
+      sold,
     });
 
     await newProduct.save();

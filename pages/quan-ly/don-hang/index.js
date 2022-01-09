@@ -12,10 +12,10 @@ const OrderManager = () => {
   const [findBy, setFindBy] = useState('1');
   const [currentPage, setCurrentPage] = useState(1);
   const { data } = useSession();
-  const router = useRouter();
   const [order, setOrder] = useState();
   const [showEditModal, setShowEditModal] = useState(false);
   const { mutate } = useSWRConfig();
+  const router = useRouter();
 
   useEffect(() => {
     if (data && data.user.role !== 'admin') router.push('/');
