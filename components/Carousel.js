@@ -1,6 +1,7 @@
 import Image from 'next/image';
-import { useRouter } from 'next/router';
+import cn from 'classnames';
 
+import { useRouter } from 'next/router';
 import { useState, useEffect, useCallback } from 'react';
 
 const Carousel = () => {
