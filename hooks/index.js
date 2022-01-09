@@ -114,7 +114,7 @@ export const useDataOrder = ({ type, limit, page }) => {
 
 //fetch data cart
 export const useCartData = (id) => {
-  const { data } = useSWR(`cart/${id}`, fetcher, { refreshInterval: 5000 });
+  const { data } = useSWR(`cart/${id}`, fetcher);
 
   return data;
 };
@@ -123,8 +123,7 @@ export const useCartData = (id) => {
 export const useDataComment = ({ productId, limit, page }) => {
   const { data } = useSWR(
     `comment?productId=${productId}&limit=${limit}&page=${page}`,
-    fetcher,
-    { refreshInterval: 5000 }
+    fetcher
   );
 
   return data;
