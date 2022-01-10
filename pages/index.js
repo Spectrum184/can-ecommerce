@@ -36,7 +36,7 @@ export default function Home({ onSale, bestSeller }) {
             ))}
         </div>
       </section>
-      <section id="product-on-sale" className="mt-6 w-full">
+      <section id="product-on-sale" className="my-6 w-full">
         <div className="w-full rounded-t md:h-14 h-16 mb-2 bg-indigo-500 flex items-center justify-between">
           <span className="ml-4 text-2xl uppercase font-semibold text-white">
             Sản phẩm đang giảm giá

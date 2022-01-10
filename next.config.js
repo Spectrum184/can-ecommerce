@@ -3,5 +3,6 @@ module.exports = {
   images: {
     loader: 'cloudinary',
     path: 'https://res.cloudinary.com/can-ecommerce/image/upload/',
+    minimumCacheTTL: 60,
   },
 };
