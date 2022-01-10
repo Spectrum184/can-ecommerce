@@ -138,3 +138,14 @@ export const useDataUser = ({ username, limit, page }) => {
 
   return data;
 };
+
+//fetch data product onSale
+
+export const useDataProductOnSale = () => {
+  const { data } = useSWR(
+    'product/find-product?type=sold&limit=4&page=1',
+    fetcher
+  );
+
+  return data;
+};
