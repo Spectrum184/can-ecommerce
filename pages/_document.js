@@ -32,7 +32,7 @@ class MyDocument extends Document {
           ></meta>
           <meta
             property="og:image"
-            content="https://res.cloudinary.com/can-ecommerce/image/upload/v1641621918/can-ecommerce/lofi_m31jt2.png"
+            content="https://res.cloudinary.com/can-ecommerce/image/upload/v1641799872/can-ecommerce/S%E1%BB%AFa_r%E1%BB%ADa_m%E1%BA%B7t_Senka_Perfect_Whip_5_na5ztk.jpg"
           ></meta>
         </Head>
         <body>

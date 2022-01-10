@@ -96,6 +96,17 @@ const editProduct = async (req, res) => {
       slug,
     });
 
+    const categoryTmp = await Category.findOneAndUpdate(
+      { _id: category },
+      {
+        $push: { products: id },
+      },
+      { new: true }
+    );
+
+    if (!categoryTmp)
+      return res.status(400).json({ error: 'Chưa chọn danh mục!' });
+
     return res.status(200).json({ message: 'Đã sửa thành công!' });
   } catch (error) {
     return res.status(500).json({ error: error.message });
