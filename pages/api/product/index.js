@@ -34,6 +34,8 @@ const createProduct = async (req, res) => {
       images,
     } = req.body;
 
+    console.log(category);
+
     const slug = slugify(title, {
       replacement: '-',
       trim: true,
@@ -63,7 +65,7 @@ const createProduct = async (req, res) => {
 
     await newProduct.save();
 
-    const categoryTmp = await Category.findOne(
+    const categoryTmp = await Category.findOneAndUpdate(
       { _id: category },
       {
         $push: { products: newProduct._id },
