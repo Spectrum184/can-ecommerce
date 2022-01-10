@@ -6,7 +6,6 @@ import { useState, useEffect, useCallback } from 'react';
 
 const Carousel = () => {
   const [images, setImages] = useState([
-    'can-ecommerce/lofi_r4o0gz.png',
     'can-ecommerce/Transino_White_C_rqwtel.jpg',
     'can-ecommerce/DHC_jac4ry.jpg',
     'can-ecommerce/S%E1%BB%AFa_r%E1%BB%ADa_m%E1%BA%B7t_Senka_Perfect_Whip_5_na5ztk.jpg',
@@ -17,7 +16,7 @@ const Carousel = () => {
 
   const handleNextImage = useCallback(() => {
     setImageIndex((index) => {
-      if (index === 4) return 0;
+      if (index === 3) return 0;
       return index + 1;
     });
   }, []);
@@ -32,7 +31,7 @@ const Carousel = () => {
 
   const handlePreviousImage = () => {
     setImageIndex((index) => {
-      if (index === 0) return 4;
+      if (index === 0) return 3;
       return index - 1;
     });
   };

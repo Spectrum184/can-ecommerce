@@ -1,11 +1,15 @@
 import Category from 'models/categoryModel';
 import Product from 'models/productModel';
 import slugify from 'slugify';
+import Cache from 'utils/cache';
 
 import { adminMiddleware } from 'middlewares/admin';
 import { connectDB } from 'utils/connect-db';
 
 connectDB();
+
+const ttl = 60 * 60 * 24;
+const cache = new Cache(ttl);
 
 export default async function handler(req, res) {
   const authError = await adminMiddleware(req);
@@ -37,6 +41,8 @@ const editCategory = async (req, res) => {
 
     await Category.findOneAndUpdate({ _id: id }, { name, slug });
 
+    cache.del('categories');
+
     return res.status(200).json({ message: 'Cập nhật thành công!' });
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -51,6 +57,7 @@ const deleteCategory = async (req, res) => {
 
     await Product.deleteMany({ _id: { $in: category.products } });
 
+    cache.del('categories');
     return res.status(200).json({ message: 'Đã xoá tất cả!' });
   } catch (error) {
     return res.status(500).json({ error: error.message });
