@@ -1,8 +1,12 @@
 import Product from 'models/productModel';
+import Cache from 'utils/cache';
 
 import { connectDB } from 'utils/connect-db';
 
 connectDB();
+
+const ttl = 60 * 60 * 4;
+const cache = new Cache(ttl);
 
 export default async function handler(req, res) {
   switch (req.method) {
@@ -16,15 +20,21 @@ export default async function handler(req, res) {
 
 const findProduct = async (req, res) => {
   try {
-    const onSale = await Product.find()
-      .select('-content')
-      .sort('-salePrice')
-      .limit(4);
+    const onSale = await cache.get('on-sale', () =>
+      Product.find()
+        .select('-content')
+        .sort('-salePrice')
+        .limit(4)
+        .then((data) => data)
+    );
 
-    const bestSeller = await Product.find()
-      .limit(4)
-      .sort('-sold')
-      .select('-content');
+    const bestSeller = await cache.get('best-seller', () =>
+      Product.find()
+        .limit(4)
+        .sort('-sold')
+        .select('-content')
+        .then((data) => data)
+    );
 
     return res.status(200).json({
       onSale,
