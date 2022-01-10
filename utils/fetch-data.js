@@ -1,4 +1,4 @@
-const BASE_URL = 'https://aichi-xinh.vercel.app';
+const BASE_URL = 'https://aichi-xinh.herokuapp.com';
 
 export const getDataAPI = async (url) => {
   const res = await fetch(`${BASE_URL}/api/${url}`, {
