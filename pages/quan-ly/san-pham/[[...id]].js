@@ -93,8 +93,6 @@ const ProductManager = () => {
     setImages(newArr);
   };
 
-  console.log(product);
-
   const onSubmit = async (e) => {
     e.preventDefault();
 
@@ -231,6 +229,7 @@ const ProductManager = () => {
                   name="category"
                   className="text-md border rounded-r w-60 px-4 py-2 bg-white hover:border-gray-400 focus:outline-none appearance-none"
                 >
+                  <option value="all">Lựa chọn</option>
                   {categories?.length > 0 &&
                     categories.map((category) => (
                       <option key={category._id} value={category._id}>

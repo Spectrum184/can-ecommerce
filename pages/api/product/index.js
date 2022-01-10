@@ -51,11 +51,11 @@ const createProduct = async (req, res) => {
     const newProduct = new Product({
       title,
       price,
-      salePrice,
+      salePrice: salePrice ? salePrice : 0,
       description,
       content,
       category,
-      inStock,
+      inStock: inStock ? inStock : 0,
       images,
       slug,
       sold,
