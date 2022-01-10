@@ -73,8 +73,16 @@ const editProduct = async (req, res) => {
 
     if (authError) return res.status(400).json({ error: authError });
 
-    const { content, description, images, inStock, price, salePrice, title } =
-      req.body;
+    const {
+      content,
+      description,
+      images,
+      inStock,
+      price,
+      salePrice,
+      title,
+      category,
+    } = req.body;
 
     const { id } = req.query;
 
@@ -95,6 +103,17 @@ const editProduct = async (req, res) => {
       title,
       slug,
     });
+
+    const categoryTmp = await Category.findOneAndUpdate(
+      { _id: category },
+      {
+        $push: { products: id },
+      },
+      { new: true }
+    );
+
+    if (!categoryTmp)
+      return res.status(400).json({ error: 'Chưa chọn danh mục!' });
 
     return res.status(200).json({ message: 'Đã sửa thành công!' });
   } catch (error) {

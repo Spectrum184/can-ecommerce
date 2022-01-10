@@ -6,11 +6,11 @@ import { useState, useEffect, useCallback } from 'react';
 
 const Carousel = () => {
   const [images, setImages] = useState([
-    'can-ecommerce/lofi_m31jt2.png',
-    'can-ecommerce/133112871_3999586296726475_3809288913763950404_o_luhj2g.jpg',
-    'can-ecommerce/133112871_3999586296726475_3809288913763950404_o_luhj2g.jpg',
-    'can-ecommerce/wallpaperbetter.com_1280x720_ckvfkt.jpg',
-    'can-ecommerce/892c8ebd1bb5826d29be0f9374d424bf_r5ybt5.jpg',
+    'can-ecommerce/lofi_r4o0gz.png',
+    'can-ecommerce/Transino_White_C_rqwtel.jpg',
+    'can-ecommerce/DHC_jac4ry.jpg',
+    'can-ecommerce/S%E1%BB%AFa_r%E1%BB%ADa_m%E1%BA%B7t_Senka_Perfect_Whip_5_na5ztk.jpg',
+    'can-ecommerce/Kem_d%C6%B0%E1%BB%A1ng_da_to%C3%A0n_th%C3%A2n_Aloins_Eaude_Cream_S_zuzrzs.jpg',
   ]);
   const [imageIndex, setImageIndex] = useState(0);
   const router = useRouter();
