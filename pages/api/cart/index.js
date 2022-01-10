@@ -60,12 +60,12 @@ const addProductToCart = async (req, res, user) => {
 
       if (product) {
         message =
-          'Bạn đã thêm sản phẩm này vào giỏ hàng! Bấm vào biểu tượng giỏ hàng trên góc màn hình để kiểm tra!';
+          'Bạn đã thêm sản phẩm này vào giỏ hàng! Bấm vào biểu tượng để kiểm tra!';
       } else {
         cart.products.push({ productId, name, price, quantity, image });
         await cart.save();
         message =
-          'Thêm vào giỏ hảng thành công! Bấm vào biểu tượng giỏ hàng trên góc màn hình để kiểm tra!';
+          'Thêm vào giỏ hảng thành công! Bấm vào biểu tượng giỏ hàng để kiểm tra!';
       }
     } else {
       const newCart = new Cart({
@@ -75,7 +75,7 @@ const addProductToCart = async (req, res, user) => {
 
       await newCart.save();
       message =
-        'Thêm vào giỏ hảng thành công! Bấm vào biểu tượng giỏ hàng trên góc màn hình để kiểm tra!';
+        'Thêm vào giỏ hảng thành công! Bấm vào biểu tượng giỏ hàng để kiểm tra!';
     }
 
     return res.status(200).json({ message });

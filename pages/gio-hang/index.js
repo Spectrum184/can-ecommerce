@@ -25,8 +25,6 @@ const Cart = () => {
   const cart = useCart();
   const router = useRouter();
 
-  console.log(deliverInfo);
-
   useEffect(() => {
     if (cart) setCartData(cart);
   }, [cart]);
@@ -74,6 +72,7 @@ const Cart = () => {
     });
 
     toastNotify(res);
+
     if (res.message) {
       router.push('/');
       mutate('cart');
