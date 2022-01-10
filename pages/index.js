@@ -4,12 +4,9 @@ import ProductCard from 'components/ProductCard';
 import Head from 'next/head';
 import Link from 'next/link';
 
-import { useDataProductOnSale } from 'hooks';
 import { getDataAPI } from 'utils/fetch-data';
 
-export default function Home({ bestSeller }) {
-  const onSale = useDataProductOnSale();
-
+export default function Home({ onSale, bestSeller }) {
   return (
     <div className="w-full px-0 md:px-10">
       <Head>
@@ -54,8 +51,8 @@ export default function Home({ bestSeller }) {
           </span>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 md:gap-6 gap-0 w-full">
-          {onSale?.result?.length > 0 &&
-            onSale?.result?.map((product) => (
+          {onSale?.length > 0 &&
+            onSale?.map((product) => (
               <ProductCard key={product._id} {...product} />
             ))}
         </div>
@@ -66,13 +63,8 @@ export default function Home({ bestSeller }) {
 }
 
 export async function getServerSideProps() {
-  // const onSale = await getDataAPI(
-  //   `product/find-product?type=sale&limit=4&page=1`
-  // );
-  const bestSeller = await getDataAPI(
-    `product/find-product?type=sold&limit=4&page=1`
-  );
+  const data = await getDataAPI('product/find-product/home');
   return {
-    props: { bestSeller: bestSeller.result },
+    props: { onSale: data.onSale, bestSeller: data.bestSeller },
   };
 }
