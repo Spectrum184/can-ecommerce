@@ -3,8 +3,11 @@ import Footer from 'components/Footer';
 import ProductCard from 'components/ProductCard';
 import Head from 'next/head';
 import Link from 'next/link';
+import Product from 'models/productModel';
+import Cache from 'utils/cache';
 
-import { getDataAPI } from 'utils/fetch-data';
+// import { getDataAPI } from 'utils/fetch-data';
+import { connectDB } from 'utils/connect-db';
 
 export default function Home({ onSale, bestSeller }) {
   return (
@@ -30,10 +33,9 @@ export default function Home({ onSale, bestSeller }) {
           </span>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 md:gap-6 gap-0 w-full">
-          {bestSeller?.length > 0 &&
-            bestSeller?.map((product) => (
-              <ProductCard key={product._id} {...product} />
-            ))}
+          {bestSeller.map((product) => (
+            <ProductCard key={product._id} {...product} />
+          ))}
         </div>
       </section>
       <section id="product-on-sale" className="my-6 w-full">
@@ -51,10 +53,9 @@ export default function Home({ onSale, bestSeller }) {
           </span>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 md:gap-6 gap-0 w-full">
-          {onSale?.length > 0 &&
-            onSale?.map((product) => (
-              <ProductCard key={product._id} {...product} />
-            ))}
+          {onSale.map((product) => (
+            <ProductCard key={product._id} {...product} />
+          ))}
         </div>
       </section>
       <Footer />
@@ -63,8 +64,32 @@ export default function Home({ onSale, bestSeller }) {
 }
 
 export async function getServerSideProps() {
-  const data = await getDataAPI('product/find-product/home');
+  connectDB();
+  const ttl = 60 * 60 * 6;
+  const cache = new Cache(ttl);
+
+  // const data = await getDataAPI('product/find-product/home');
+
+  const onSale = await cache.get('on-sale', () =>
+    Product.find()
+      .select('-content')
+      .sort('-salePrice')
+      .limit(4)
+      .then((data) => data)
+  );
+
+  const bestSeller = await cache.get('best-seller', () =>
+    Product.find()
+      .limit(4)
+      .sort('-sold')
+      .select('-content')
+      .then((data) => data)
+  );
+
   return {
-    props: { onSale: data.onSale, bestSeller: data.bestSeller },
+    props: {
+      onSale: JSON.parse(JSON.stringify(onSale)),
+      bestSeller: JSON.parse(JSON.stringify(bestSeller)),
+    },
   };
 }

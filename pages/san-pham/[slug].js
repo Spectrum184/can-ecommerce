@@ -3,15 +3,17 @@ import Image from 'next/image';
 import Link from 'next/link';
 import CommentDisplay from 'components/CommentDisplay';
 import Pagination from 'components/Pagination';
+import Footer from 'components/Footer';
+import ProductModel from 'models/productModel';
 
-import { deleteDataAPI, getDataAPI, postDataAPI } from 'utils/fetch-data';
+import { deleteDataAPI, postDataAPI } from 'utils/fetch-data';
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { toastNotify } from 'utils/toast';
 import { useRouter } from 'next/router';
 import { useSWRConfig } from 'swr';
 import { useDataComment } from 'hooks';
-import Footer from 'components/Footer';
+import { connectDB } from 'utils/connect-db';
 
 const Product = ({ product }) => {
   const [imageTab, setImageTab] = useState(0);
@@ -287,9 +289,14 @@ const Product = ({ product }) => {
 };
 
 export async function getServerSideProps({ params: { slug } }) {
-  const res = await getDataAPI(`product/${slug}`);
+  connectDB();
+
+  const product = await ProductModel.findOne({ slug });
+  const error = { error: 'Không tồn tại sản phẩm này!' };
+
+  // const res = await getDataAPI(`product/${slug}`);
   return {
-    props: { product: res },
+    props: { product: product ? JSON.parse(JSON.stringify(product)) : error },
   };
 }
 
