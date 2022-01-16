@@ -5,12 +5,16 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { signOut, useSession } from 'next-auth/react';
 import { useCategory } from 'hooks';
+import { useRouter } from 'next/router';
 
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [showCategory, setShowCategory] = useState(false);
   const { data } = useSession();
   const categories = useCategory();
+  const {
+    query: { slug },
+  } = useRouter();
 
   return (
     <nav className="bg-white shadow fixed top-0 w-full z-50">
@@ -72,7 +76,12 @@ const Navbar = () => {
             {categories?.length > 0 &&
               categories?.map((category) => (
                 <Link href={`/danh-muc/${category.slug}`} key={category._id}>
-                  <a className="my-1 text-md text-gray-800 font-medium hover:text-indigo-500 md:mx-4 md:my-0">
+                  <a
+                    className={cn(
+                      'my-1 text-md font-medium hover:text-indigo-500 md:mx-4 md:my-0',
+                      { 'text-indigo-500': category.slug === slug }
+                    )}
+                  >
                     {category.name}
                   </a>
                 </Link>
