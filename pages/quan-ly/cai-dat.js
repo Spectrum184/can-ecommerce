@@ -15,6 +15,22 @@ const Setting = () => {
   const { mutate } = useSWRConfig();
   const { data } = useSession();
   const router = useRouter();
+  const [newCategories, setNewCategories] = useState([]);
+
+  useEffect(() => {
+    if (categories) {
+      const arrTmp = [];
+      for (const key in categories) {
+        if (Object.hasOwnProperty.call(categories, key)) {
+          const element = categories[key];
+
+          arrTmp.push(...element);
+        }
+      }
+
+      setNewCategories(arrTmp);
+    }
+  }, [categories]);
 
   useEffect(() => {
     if (data && data.user.role !== 'admin') router.push('/');
@@ -69,18 +85,20 @@ const Setting = () => {
             <tr className="text-left">
               <th className="px-4 py-3">Tên</th>
               <th className="px-4 py-3">Slug</th>
+              <th className="px-4 py-3">Danh mục</th>
               <th className="px-4 py-3">Hoạt động</th>
             </tr>
           </thead>
           <tbody>
-            {categories?.length > 0 &&
-              categories.map((category) => (
+            {newCategories?.length > 0 &&
+              newCategories.map((category) => (
                 <tr
                   className="bg-gray-100 border-b border-indigo-200"
                   key={category._id}
                 >
                   <td className="px-4 py-3">{category.name}</td>
                   <td className="px-4 py-3">{category.slug}</td>
+                  <td className="px-4 py-3">{category?.category}</td>
                   <td className="px-4 py-3">
                     <button
                       onClick={() => handleEditCategory(category)}
@@ -124,6 +142,26 @@ const Setting = () => {
                     setCategory({ ...category, name: e.target.value })
                   }
                 />
+              </div>
+              <div className="flex my-2">
+                <span className="text-sm border-2 rounded-l px-4 py-2 bg-gray-300 whitespace-no-wrap">
+                  Danh mục:
+                </span>
+                <select
+                  value={category ? category?.category : '0'}
+                  onChange={(e) =>
+                    setCategory({ ...category, category: e.target.value })
+                  }
+                  name="category"
+                  className="text-md border rounded-r w-60 px-4 py-2 bg-white hover:border-gray-400 focus:outline-none appearance-none"
+                >
+                  <option value="0">Chọn</option>
+                  <option value="1">Cao cấp</option>
+                  <option value="2">Mỹ phẩm</option>
+                  <option value="3">Không có gì để mặc</option>
+                  <option value="4">Em đói</option>
+                  <option value="5">Phụ kiện</option>
+                </select>
               </div>
               <button
                 type="reset"

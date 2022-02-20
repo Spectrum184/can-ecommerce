@@ -29,7 +29,11 @@ export default async function handler(req, res) {
 
 const editCategory = async (req, res) => {
   try {
-    const { name } = req.body;
+    const { name, category } = req.body;
+
+    if (category === '0')
+      return res.status(200).json({ message: 'Vui lòng chọn danh mục!' });
+
     const { id } = req.query;
 
     const slug = slugify(name, {
@@ -39,7 +43,7 @@ const editCategory = async (req, res) => {
       locale: 'vi',
     });
 
-    await Category.findOneAndUpdate({ _id: id }, { name, slug });
+    await Category.findOneAndUpdate({ _id: id }, { name, slug, category });
 
     cache.del('categories');
 

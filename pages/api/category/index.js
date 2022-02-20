@@ -29,7 +29,10 @@ const createCategory = async (req, res) => {
 
     if (authError) return res.status(400).json({ error: authError });
 
-    const { name } = req.body;
+    const { name, category } = req.body;
+
+    if (category === '0')
+      return res.status(200).json({ message: 'Vui lòng chọn danh mục!' });
 
     const slug = slugify(name, {
       replacement: '-',
@@ -38,16 +41,17 @@ const createCategory = async (req, res) => {
       locale: 'vi',
     });
 
-    const category = await Category.findOne({
+    const categoryTmp = await Category.findOne({
       slug,
     });
 
-    if (category)
+    if (categoryTmp)
       return res.status(200).json({ message: 'Danh mục đã tồn tại!' });
 
     const newCategory = new Category({
       name,
       slug,
+      category,
     });
 
     await newCategory.save();
@@ -63,7 +67,19 @@ const createCategory = async (req, res) => {
 const getCategories = async (req, res) => {
   try {
     const categories = await cache.get('categories', () =>
-      Category.find().then((data) => data)
+      Category.find()
+        .sort('category')
+        .then((data) => data)
+        .then((data) => {
+          return data.reduce(function (accumulator, obj) {
+            let key = obj._doc.category;
+            if (!accumulator[key]) {
+              accumulator[key] = [];
+            }
+            accumulator[key].push(obj);
+            return accumulator;
+          }, {});
+        })
     );
 
     return res.status(200).json(categories);

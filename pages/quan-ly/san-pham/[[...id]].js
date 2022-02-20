@@ -32,6 +32,22 @@ const ProductManager = () => {
   const { title, price, salePrice, description, category, content, inStock } =
     product;
   const { data } = useSession();
+  const [newCategories, setNewCategories] = useState([]);
+
+  useEffect(() => {
+    if (categories) {
+      const arrTmp = [];
+      for (const key in categories) {
+        if (Object.hasOwnProperty.call(categories, key)) {
+          const element = categories[key];
+
+          arrTmp.push(...element);
+        }
+      }
+
+      setNewCategories(arrTmp);
+    }
+  }, [categories]);
 
   useEffect(() => {
     if (data && data.user.role !== 'admin') router.push('/');
@@ -230,8 +246,8 @@ const ProductManager = () => {
                   className="text-md border rounded-r w-60 px-4 py-2 bg-white hover:border-gray-400 focus:outline-none appearance-none"
                 >
                   <option value="all">Lựa chọn</option>
-                  {categories?.length > 0 &&
-                    categories.map((category) => (
+                  {newCategories?.length > 0 &&
+                    newCategories.map((category) => (
                       <option key={category._id} value={category._id}>
                         {category.name}
                       </option>

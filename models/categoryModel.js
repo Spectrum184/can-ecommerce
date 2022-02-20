@@ -13,6 +13,10 @@ const CategorySchema = new mongoose.Schema(
       trim: true,
     },
     products: [{ type: mongoose.Types.ObjectId, ref: 'product' }],
+    category: {
+      type: Number,
+      required: true,
+    },
   },
   {
     timestamps: true,

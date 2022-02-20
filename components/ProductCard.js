@@ -75,6 +75,12 @@ const ProductCard = ({
                 .toString()
                 .substring(0, salePrice.toString().length - 3)}
           K
+          <span className="text-sm ml-1 line-through">
+            {(price + 50000)
+              .toString()
+              .substring(0, (price + 50000).toString().length - 3)}
+            K
+          </span>
         </span>
         <span className="text-lg font-semibold">Kho: {inStock}</span>
       </div>

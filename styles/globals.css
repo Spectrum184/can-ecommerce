@@ -52,3 +52,19 @@ a {
   stroke-width: 2;
   stroke-miterlimit: 10;
 }
+
+/* ----------NAVBAR----------- */
+@media only screen and (min-width: 768px) {
+  .navbar-parent:hover .navbar-child {
+    opacity: 1;
+    height: auto;
+    overflow: none;
+    transform: translateY(0);
+  }
+  .navbar-child {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    transform: translateY(-10%);
+  }
+}
