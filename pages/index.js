@@ -52,7 +52,7 @@ export default function Home({
             <Image
               src="can-ecommerce/1Caocap_rdxwpj.jpg"
               alt="product"
-              className="object-cover"
+              className="md:object-cover object-fill"
               layout="fill"
               priority
             ></Image>
@@ -84,7 +84,7 @@ export default function Home({
             <Image
               src="can-ecommerce/1Caocap_rdxwpj.jpg"
               alt="product"
-              className="object-cover"
+              className="md:object-cover object-fill"
               layout="fill"
               priority
             ></Image>
@@ -117,7 +117,7 @@ export default function Home({
             <Image
               src="can-ecommerce/1Songkhoe_zueucm.jpg"
               alt="product"
-              className="object-cover"
+              className="md:object-cover object-fill"
               layout="fill"
               priority
             ></Image>
@@ -150,7 +150,7 @@ export default function Home({
             <Image
               src="can-ecommerce/1Mypham_yovnmx.jpg"
               alt="product"
-              className="object-cover"
+              className="md:object-cover object-fill"
               layout="fill"
               priority
             ></Image>
@@ -182,7 +182,7 @@ export default function Home({
             <Image
               src="can-ecommerce/1Khongcogidemac_vshci7.jpg"
               alt="product"
-              className="object-cover"
+              className="md:object-cover object-fill"
               layout="fill"
               priority
             ></Image>
@@ -215,7 +215,7 @@ export default function Home({
             <Image
               src="can-ecommerce/1Emdoi_st3pzv.jpg"
               alt="product"
-              className="object-cover"
+              className="md:object-cover object-fill"
               layout="fill"
               priority
             ></Image>
@@ -248,7 +248,7 @@ export default function Home({
             <Image
               src="can-ecommerce/1Phukien_n1pgyt.jpg"
               alt="product"
-              className="object-cover"
+              className="md:object-cover object-fill"
               layout="fill"
               priority
             ></Image>
@@ -285,7 +285,8 @@ export async function getServerSideProps() {
   //     .then((data) => data)
   // );
 
-  await Product.findOne();
+  // add Model Product for serverless
+  Product.findOne();
 
   const cosmeticProducts = await cache.get('cosmetic-product', () =>
     Category.find({ category: 2 })

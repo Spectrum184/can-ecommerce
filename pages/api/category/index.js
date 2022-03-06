@@ -27,6 +27,8 @@ const createCategory = async (req, res) => {
   try {
     const authError = await adminMiddleware(req);
 
+    console.log(authError);
+
     if (authError) return res.status(400).json({ error: authError });
 
     const { name, category } = req.body;

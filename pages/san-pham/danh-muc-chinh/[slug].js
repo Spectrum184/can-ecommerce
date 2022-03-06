@@ -16,8 +16,6 @@ const HighlightProduct = ({ slug }) => {
     page: currentPage,
   });
 
-  console.log(data);
-
   return (
     <div className="w-full px-0 md:px-10 pb-4 mt-4">
       <Head>
