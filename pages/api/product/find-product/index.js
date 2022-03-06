@@ -28,8 +28,6 @@ const findProduct = async (req, res) => {
       sort: '-sold',
     });
 
-    console.log(listData);
-
     for (const item of listData) {
       result.push(...item.products);
     }
@@ -41,8 +39,8 @@ const findProduct = async (req, res) => {
       });
 
     return res.status(200).json({
+      total: Math.ceil(result.length / Number(limit)),
       result: result.slice(start, start + limit),
-      total: Math.ceil(total / Number(limit)),
     });
   } catch (error) {
     return res.status(500).json({ error: error.message });

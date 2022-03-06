@@ -16,6 +16,8 @@ const HighlightProduct = ({ slug }) => {
     page: currentPage,
   });
 
+  console.log(data);
+
   return (
     <div className="w-full px-0 md:px-10 pb-4 mt-4">
       <Head>
@@ -23,7 +25,7 @@ const HighlightProduct = ({ slug }) => {
       </Head>
       <div className="grid grid-cols-1 md:grid-cols-4 md:gap-6 gap-0 w-full">
         {data
-          ? data.result.length > 0 &&
+          ? data?.result?.length > 0 &&
             data?.result.map((product) => (
               <ProductCard key={product._id} {...product} />
             ))
