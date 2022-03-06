@@ -61,6 +61,56 @@ const Navbar = () => {
             </ul>
           </li>
           <li className="relative navbar-parent">
+            <span className="flex justify-between md:inline-flex p-4 bg-white items-center hover:bg-indigo-500 cursor-pointer space-x-2">
+              <span>Con yêu</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-4 h-4 fill-current pt-1"
+                viewBox="0 0 24 24"
+              >
+                <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
+              </svg>
+            </span>
+            <ul className="navbar-child transition duration-300 md:absolute top-full right-0 md:w-48 bg-white md:shadow-lg md:rounded-b ">
+              {categories &&
+                categories['6'] &&
+                categories['6'].map((item) => (
+                  <li key={item._id}>
+                    <Link href={`/danh-muc/${item.slug}`}>
+                      <a className="flex px-4 py-3 hover:bg-indigo-500">
+                        {item.name}
+                      </a>
+                    </Link>
+                  </li>
+                ))}
+            </ul>
+          </li>
+          <li className="relative navbar-parent">
+            <span className="flex justify-between md:inline-flex p-4 bg-white items-center hover:bg-indigo-500 cursor-pointer space-x-2">
+              <span>Sống khoẻ</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-4 h-4 fill-current pt-1"
+                viewBox="0 0 24 24"
+              >
+                <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
+              </svg>
+            </span>
+            <ul className="navbar-child transition duration-300 md:absolute top-full right-0 md:w-48 bg-white md:shadow-lg md:rounded-b ">
+              {categories &&
+                categories['7'] &&
+                categories['7'].map((item) => (
+                  <li key={item._id}>
+                    <Link href={`/danh-muc/${item.slug}`}>
+                      <a className="flex px-4 py-3 hover:bg-indigo-500">
+                        {item.name}
+                      </a>
+                    </Link>
+                  </li>
+                ))}
+            </ul>
+          </li>
+          <li className="relative navbar-parent">
             <span className="flex justify-between md:inline-flex p-4 items-center bg-white hover:bg-indigo-500 cursor-pointer space-x-2">
               <span>Mỹ phẩm</span>
               <svg

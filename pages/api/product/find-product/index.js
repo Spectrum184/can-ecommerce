@@ -1,4 +1,4 @@
-import Product from 'models/productModel';
+import Category from 'models/categoryModel';
 
 import { connectDB } from 'utils/connect-db';
 
@@ -16,29 +16,22 @@ export default async function handler(req, res) {
 
 const findProduct = async (req, res) => {
   try {
-    let result;
+    const result = [];
     let total = 0;
 
     const { type, limit, page } = req.query;
     const start = (Number(page) - 1) * Number(limit);
 
-    if (type === 'sale') {
-      result = await Product.find()
-        .select('-content')
-        .skip(start)
-        .sort('-salePrice')
-        .limit(Number(limit));
-      total = await Product.find({
-        salePrice: { $gt: 0 },
-      }).count();
-    } else {
-      result = await Product.find()
-        .skip(start)
-        .limit(Number(limit))
-        .sort('-sold')
-        .select('-content');
+    const listData = await Category.find({ category: Number(type) }).populate({
+      path: 'products',
+      select: '-content',
+      sort: '-sold',
+    });
 
-      total = await Product.count();
+    console.log(listData);
+
+    for (const item of listData) {
+      result.push(...item.products);
     }
 
     if (result.length === 0)
@@ -48,7 +41,7 @@ const findProduct = async (req, res) => {
       });
 
     return res.status(200).json({
-      result,
+      result: result.slice(start, start + limit),
       total: Math.ceil(total / Number(limit)),
     });
   } catch (error) {

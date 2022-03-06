@@ -83,7 +83,36 @@ export const useCart = () => {
 
 //fetch data product by condition
 export const useProductByCondition = ({ query, limit, page }) => {
-  const type = query === 'giam-gia' ? 'sale' : 'sold';
+  let type = 0;
+
+  switch (query) {
+    case 'cao-cap':
+      type = 1;
+      break;
+    case 'me-be':
+      type = 6;
+      break;
+    case 'song-khoe':
+      type = 7;
+      break;
+    case 'my-pham':
+      type = 2;
+      break;
+    case 'thoi-trang':
+      type = 3;
+      break;
+    case 'do-an':
+      type = 4;
+      break;
+    case 'phu-kien':
+      type = 5;
+      break;
+
+    default:
+      type = 1;
+      break;
+  }
+
   const { data } = useSWR(
     `product/find-product?type=${type}&limit=${limit}&page=${page}`,
     fetcher

@@ -161,6 +161,8 @@ const Setting = () => {
                   <option value="3">Không có gì để mặc</option>
                   <option value="4">Em đói</option>
                   <option value="5">Phụ kiện</option>
+                  <option value="6">Con yêu</option>
+                  <option value="7">Sống khoẻ</option>
                 </select>
               </div>
               <button
