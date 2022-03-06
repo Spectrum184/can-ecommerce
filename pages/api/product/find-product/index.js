@@ -1,4 +1,5 @@
 import Category from 'models/categoryModel';
+import Product from 'models/productModel';
 
 import { connectDB } from 'utils/connect-db';
 
@@ -21,6 +22,9 @@ const findProduct = async (req, res) => {
 
     const { type, limit, page } = req.query;
     const start = (Number(page) - 1) * Number(limit);
+
+    // add model for serverless
+    Product.findOne();
 
     const listData = await Category.find({ category: Number(type) }).populate({
       path: 'products',
