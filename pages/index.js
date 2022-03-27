@@ -21,6 +21,29 @@ export default function Home({
   accessoriesProducts,
 }) {
   const router = useRouter();
+  const tags = [
+    'covid19',
+    'dulichthoi',
+    'taoxoannhatban',
+    'hamtreem',
+    'lanmuoichobe',
+    'chamsocmebau',
+    'viemngatmui',
+    'dauxuongkhop',
+    'vitamin',
+    'chamsocda',
+    'boxungkem',
+    'chongnang',
+    'moixinh',
+    'khumui',
+    'giamcan',
+    'matna',
+    'vayxinh',
+    'sexy',
+    'unisex',
+    'nhaxinh',
+    'cosplay',
+  ];
 
   return (
     <div className="w-full px-0 md:px-10">
@@ -30,7 +53,18 @@ export default function Home({
       <div className="w-full">
         <Carousel />
       </div>
-      <section id="luxury-product" className="mt-6 pb-4 w-full">
+      <div className="w-full flex flex-wrap my-2">
+        {tags.map((item, index) => (
+          <Link key={index} href={`/the/${item}`}>
+            <a>
+              <span className="mx-1 underline cursor-pointer text-xl">
+                #{item}
+              </span>
+            </a>
+          </Link>
+        ))}
+      </div>
+      <section id="luxury-product" className="pb-4 w-full">
         <div className="w-full rounded-t md:h-14 h-16 mb-2 bg-indigo-500 flex items-center justify-between">
           <span className="ml-4 text-2xl uppercase font-semibold text-white">
             Hàng cao cấp bán chạy
@@ -268,22 +302,6 @@ export async function getServerSideProps() {
   connectDB();
   const ttl = 60 * 60 * 6;
   const cache = new Cache(ttl);
-
-  // const onSale = await cache.get('on-sale', () =>
-  //   Product.find()
-  //     .select('-content')
-  //     .sort('-salePrice')
-  //     .limit(4)
-  //     .then((data) => data)
-  // );
-
-  // const bestSeller = await cache.get('best-seller', () =>
-  //   Product.find()
-  //     .limit(4)
-  //     .sort('-sold')
-  //     .select('-content')
-  //     .then((data) => data)
-  // );
 
   // add Model Product for serverless
   Product.findOne();

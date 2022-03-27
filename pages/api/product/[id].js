@@ -82,6 +82,7 @@ const editProduct = async (req, res) => {
       salePrice,
       title,
       category,
+      tag,
     } = req.body;
 
     const { id } = req.query;
@@ -93,6 +94,8 @@ const editProduct = async (req, res) => {
       locale: 'vi',
     });
 
+    const tags = tag.split(',');
+
     await Product.findByIdAndUpdate(id, {
       content,
       description,
@@ -102,6 +105,7 @@ const editProduct = async (req, res) => {
       salePrice,
       title,
       slug,
+      tags,
     });
 
     const categoryTmp = await Category.findOneAndUpdate(

@@ -32,9 +32,8 @@ const createProduct = async (req, res) => {
       category,
       inStock,
       images,
+      tag,
     } = req.body;
-
-    console.log(category);
 
     const slug = slugify(title, {
       replacement: '-',
@@ -49,6 +48,7 @@ const createProduct = async (req, res) => {
       return res.status(400).json({ error: 'Sản phẩm này đã tồn tại!' });
 
     const sold = Math.floor(Math.random() * (1000 - 500) + 500);
+    const tags = tag.split(',');
 
     const newProduct = new Product({
       title,
@@ -61,6 +61,7 @@ const createProduct = async (req, res) => {
       images,
       slug,
       sold,
+      tags,
     });
 
     await newProduct.save();

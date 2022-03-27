@@ -20,6 +20,7 @@ const ProductManager = () => {
       content: '',
       category: '',
       inStock: 0,
+      tag: '',
     };
   }, []);
   const router = useRouter();
@@ -29,8 +30,16 @@ const ProductManager = () => {
   const [images, setImages] = useState([]);
   const { id } = router.query;
   const [product, setProduct] = useState(initialState);
-  const { title, price, salePrice, description, category, content, inStock } =
-    product;
+  const {
+    title,
+    price,
+    salePrice,
+    description,
+    category,
+    content,
+    inStock,
+    tag,
+  } = product;
   const { data } = useSession();
   const [newCategories, setNewCategories] = useState([]);
 
@@ -57,7 +66,8 @@ const ProductManager = () => {
     if (id) {
       setOnEdit(true);
       getDataAPI(`product/${id}`).then((res) => {
-        setProduct(res);
+        const tag = res.tags ? res.tags.join(',') : '';
+        setProduct({ ...res, tag });
         setImages(res.images);
       });
     } else {
@@ -267,6 +277,19 @@ const ProductManager = () => {
                   onChange={handleChange}
                 />
               </div>
+            </div>
+            <div className="flex w-full my-5">
+              <span className="text-md border rounded-l px-4 py-2 bg-indigo-400 min-w-fit">
+                Thẻ:
+              </span>
+              <input
+                name="tag"
+                className="border rounded-r px-4 py-2 outline-none flex-1"
+                type="text"
+                placeholder="Các thẻ ngăn cách nhau bằng dấu phẩy"
+                value={tag}
+                onChange={handleChange}
+              />
             </div>
             <div className="my-5">
               <button className="py-2 px-6 rounded bg-indigo-400 hover:bg-indigo-300 block md:inline-block">

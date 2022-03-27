@@ -185,7 +185,18 @@ const Product = ({ product }) => {
                   : product.price.toString().substring(0, 3)}
               </span>
             </div>
-
+            <div className="w-full text-lg my-2 font-bold">
+              Thẻ:
+              <span className="text-red-500 mx-2 font-bold">
+                {product?.tags.slice(0, 3).map((item, index) => (
+                  <Link key={index} href={`/the/${item}`}>
+                    <a>
+                      <span className="underline mx-1">#{item}</span>
+                    </a>
+                  </Link>
+                ))}
+              </span>
+            </div>
             {data?.user.role === 'admin' ? (
               <div>
                 <Link href={`/quan-ly/san-pham/${product.slug}`}>

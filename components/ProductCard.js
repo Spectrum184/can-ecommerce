@@ -18,6 +18,7 @@ const ProductCard = ({
   likes,
   inStock,
   _id,
+  tags,
 }) => {
   const { data } = useSession();
   const { mutate } = useSWRConfig();
@@ -68,7 +69,7 @@ const ProductCard = ({
       </p>
       <div className="flex justify-between text-red-500">
         <span className="text-lg font-semibold">
-          Giá:{' '}
+          Giá:
           {salePrice === 0
             ? price.toString().substring(0, price.toString().length - 3)
             : salePrice
@@ -87,12 +88,22 @@ const ProductCard = ({
       <div className="flex justify-between text-red-500">
         <span className="text-lg font-medium">Đã bán: {sold}</span>
         <span className="text-lg font-medium">
-          Ưng:{' '}
+          Ưng:
           {likes.length > 100 ? likes.length : price.toString().substring(0, 3)}
         </span>
       </div>
       <div className="w-full my-2" style={{ minHeight: '96px' }}>
         {description.substring(0, 100)}...
+      </div>
+      <div className="w-full flex flex-wrap">
+        Thẻ:
+        {tags?.slice(0, 4).map((item, index) => (
+          <Link key={index} href={`/the/${item}`}>
+            <a>
+              <span className="underline mx-1 text-red-500">#{item}</span>
+            </a>
+          </Link>
+        ))}
       </div>
       <div className="flex justify-between my-2 bottom-2">
         <Link href={`/san-pham/${slug}`}>
