@@ -27,6 +27,10 @@ const userSchema = mongoose.Schema(
       type: String,
       default: 'can-ecommerce/avartaaaaa_p5wze4.jpg',
     },
+    vipLevel: {
+      type: String,
+      default: 'Fan cứng',
+    },
   },
   {
     timestamps: true,

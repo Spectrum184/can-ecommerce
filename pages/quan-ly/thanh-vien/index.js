@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useDataUser } from 'hooks';
-import { deleteDataAPI } from 'utils/fetch-data';
+import { deleteDataAPI, patchDataAPI } from 'utils/fetch-data';
 import { toastNotify } from 'utils/toast';
 import { useSWRConfig } from 'swr';
 
@@ -45,6 +45,23 @@ const UserManager = () => {
     }
   };
 
+  const updateVipLevel = async (user) => {
+    if (confirm('Ok?')) {
+      const res = await patchDataAPI(`user/vipLevel/${user._id}`, {
+        vipLevel: user.vipLevel,
+      });
+
+      toastNotify(res);
+
+      if (res.message)
+        mutate(
+          `user/find-user?username=${username}$limit=20&page=${currentPage}`
+        );
+    }
+  };
+
+  console.log(dataUser);
+
   return (
     <div className="mt-3">
       <div className="w-full md:w-1/3 mx-auto">
@@ -71,10 +88,11 @@ const UserManager = () => {
         <table className="rounded-t-lg w-full font-bold text-base bg-indigo-400 text-gray-800">
           <thead>
             <tr className="text-left">
-              <th className="px-4 py-3">Tến</th>
+              <th className="px-4 py-3">Tên</th>
               <th className="px-4 py-3">Email</th>
               <th className="px-4 py-3">Tên đăng nhập</th>
               <th className="px-4 py-3">Ngày tham gia</th>
+              <th className="px-4 py-3">Cấp độ</th>
               <th className="px-4 py-3">Hành động</th>
             </tr>
           </thead>
@@ -96,6 +114,16 @@ const UserManager = () => {
                   <td className="px-4 py-3">{user.username}</td>
                   <td className="px-4 py-3">
                     {user.createdAt.substring(0, 10)}
+                  </td>
+                  <td>
+                    <select
+                      value={user.vipLevel}
+                      onChange={() => updateVipLevel(user)}
+                    >
+                      <option value="Fan cứng">Fan Cứng</option>
+                      <option value="Thân thiết">Thân Thiết</option>
+                      <option value="VIP">VIP</option>
+                    </select>
                   </td>
                   <td>
                     <button
