@@ -8,6 +8,7 @@ import { useDataUser } from 'hooks';
 import { deleteDataAPI, patchDataAPI } from 'utils/fetch-data';
 import { toastNotify } from 'utils/toast';
 import { useSWRConfig } from 'swr';
+import UserRow from 'components/quan-ly-thanh-vien/userRow';
 
 const UserManager = () => {
   const router = useRouter();
@@ -15,6 +16,7 @@ const UserManager = () => {
   const [search, setSearch] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [username, setUsername] = useState('');
+  const [vipLevel, setVipLevel] = useState('');
   const { mutate } = useSWRConfig();
   const dataUser = useDataUser({
     username,
@@ -35,21 +37,6 @@ const UserManager = () => {
   const deleteUser = async (user) => {
     if (confirm('Chắc chắn xoá?')) {
       const res = await deleteDataAPI(`user/${user._id}`);
-
-      toastNotify(res);
-
-      if (res.message)
-        mutate(
-          `user/find-user?username=${username}$limit=20&page=${currentPage}`
-        );
-    }
-  };
-
-  const updateVipLevel = async (user, vipLevel) => {
-    if (confirm('Ok?')) {
-      const res = await patchDataAPI(`user/vipLevel?id=${user._id}`, {
-        vipLevel: vipLevel,
-      });
 
       toastNotify(res);
 
@@ -101,43 +88,15 @@ const UserManager = () => {
           <tbody>
             {dataUser?.users?.length > 0 &&
               dataUser?.users.map((user) => (
-                <tr
-                  className="bg-gray-100 border-b border-indigo-200"
+                <UserRow
                   key={user._id}
-                >
-                  <td className="px-4 py-3">
-                    <Link href={`/trang-ca-nhan/${user._id}`}>
-                      <a className="hover:underline hover:text-gray-500">
-                        {user.name}
-                      </a>
-                    </Link>
-                  </td>
-                  <td className="px-4 py-3">{user.email}</td>
-                  <td className="px-4 py-3">{user.username}</td>
-                  <td className="px-4 py-3">
-                    {user.createdAt.substring(0, 10)}
-                  </td>
-                  <td>
-                    <select
-                      value={user.vipLevel}
-                      onChange={(e) => {
-                        updateVipLevel(user, e.target.value);
-                      }}
-                    >
-                      <option value="Fan cứng">Fan Cứng</option>
-                      <option value="Thân thiết">Thân Thiết</option>
-                      <option value="VIP">VIP</option>
-                    </select>
-                  </td>
-                  <td>
-                    <button
-                      onClick={() => deleteUser(user)}
-                      className="py-2 px-4 ml-2 text-white rounded-lg bg-red-500 block md:inline-block"
-                    >
-                      Xoá
-                    </button>
-                  </td>
-                </tr>
+                  id={user._id}
+                  name={user.name}
+                  email={user.email}
+                  username={user.username}
+                  createdAt={user.createdAt}
+                  vipLevel={user.vipLevel}
+                ></UserRow>
               ))}
           </tbody>
         </table>

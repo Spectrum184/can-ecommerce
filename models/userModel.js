@@ -29,7 +29,7 @@ const userSchema = mongoose.Schema(
     },
     vipLevel: {
       type: String,
-      default: 'Fan cứng',
+      default: 'CasualUser',
     },
   },
   {
