@@ -45,10 +45,10 @@ const UserManager = () => {
     }
   };
 
-  const updateVipLevel = async (user) => {
+  const updateVipLevel = async (user, vipLevel) => {
     if (confirm('Ok?')) {
-      const res = await patchDataAPI(`user/vipLevel/${user._id}`, {
-        vipLevel: user.vipLevel,
+      const res = await patchDataAPI(`user/vipLevel?id=${user._id}`, {
+        vipLevel: vipLevel,
       });
 
       toastNotify(res);
@@ -76,7 +76,9 @@ const UserManager = () => {
               type="text"
               placeholder="Tìm theo tên đăng nhập..."
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
             />
             <button className="py-2 ml-2 px-4 text-white rounded-lg bg-indigo-500 hover:bg-indigo-400 block md:inline-block">
               Tìm
@@ -118,7 +120,9 @@ const UserManager = () => {
                   <td>
                     <select
                       value={user.vipLevel}
-                      onChange={() => updateVipLevel(user)}
+                      onChange={(e) => {
+                        updateVipLevel(user, e.target.value);
+                      }}
                     >
                       <option value="Fan cứng">Fan Cứng</option>
                       <option value="Thân thiết">Thân Thiết</option>

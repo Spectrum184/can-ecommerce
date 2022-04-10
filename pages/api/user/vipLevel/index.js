@@ -18,7 +18,6 @@ const updateUserVipStatus = async (req, res) => {
   try {
     const { id } = req.query;
     const { vipLevel } = req.body;
-    console.log(id, vipLevel);
     const user = await User.findByIdAndUpdate(id, { vipLevel }, { new: true });
     if (!user)
       return res.status(400).json({ error: 'Người dùng không tồn tại' });
