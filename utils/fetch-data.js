@@ -1,4 +1,4 @@
-const BASE_URL = 'https://kantan-store.vercel.app';
+const BASE_URL = 'http://localhost:3000';
 
 export const getDataAPI = async (url) => {
   const res = await fetch(`${BASE_URL}/api/${url}`, {
