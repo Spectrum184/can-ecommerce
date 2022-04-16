@@ -1,5 +1,5 @@
 import Pagination from 'components/Pagination';
-import Link from 'next/link';
+import UserRow from 'components/userManagement/UserRow';
 
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -8,7 +8,6 @@ import { useDataUser } from 'hooks';
 import { deleteDataAPI } from 'utils/fetch-data';
 import { toastNotify } from 'utils/toast';
 import { useSWRConfig } from 'swr';
-import UserRow from 'components/userManagement/UserRow';
 
 const UserManager = () => {
   const router = useRouter();
@@ -87,15 +86,7 @@ const UserManager = () => {
           <tbody>
             {dataUser?.users?.length > 0 &&
               dataUser?.users.map((user) => (
-                <UserRow
-                  key={user._id}
-                  id={user._id}
-                  name={user.name}
-                  email={user.email}
-                  username={user.username}
-                  createdAt={user.createdAt}
-                  vipLevel={user.vipLevel}
-                />
+                <UserRow key={user._id} {...user} />
               ))}
           </tbody>
         </table>
