@@ -5,10 +5,10 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useDataUser } from 'hooks';
-import { deleteDataAPI, patchDataAPI } from 'utils/fetch-data';
+import { deleteDataAPI } from 'utils/fetch-data';
 import { toastNotify } from 'utils/toast';
 import { useSWRConfig } from 'swr';
-import UserRow from 'components/quan-ly-thanh-vien/userRow';
+import UserRow from 'components/userManagement/UserRow';
 
 const UserManager = () => {
   const router = useRouter();
@@ -16,7 +16,6 @@ const UserManager = () => {
   const [search, setSearch] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [username, setUsername] = useState('');
-  const [vipLevel, setVipLevel] = useState('');
   const { mutate } = useSWRConfig();
   const dataUser = useDataUser({
     username,
@@ -96,7 +95,7 @@ const UserManager = () => {
                   username={user.username}
                   createdAt={user.createdAt}
                   vipLevel={user.vipLevel}
-                ></UserRow>
+                />
               ))}
           </tbody>
         </table>

@@ -2,7 +2,7 @@ import { Link } from 'next/link';
 import React, { useState } from 'react';
 
 const UserRow = ({ id, name, email, username, createdAt, vipLevel }) => {
-  const [localVipLevel, setLocalVipLevel] = useState(vipLevel);
+  const [localVipLevel, setLocalVipLevel] = useState(vipLevel ?? 'CasualUser');
 
   const updateVipLevel = async (user, vipLevel) => {
     if (confirm('Ok?')) {
@@ -30,7 +30,7 @@ const UserRow = ({ id, name, email, username, createdAt, vipLevel }) => {
       <td className="px-4 py-3">{username}</td>
       <td className="px-4 py-3">{createdAt.substring(0, 10)}</td>
       <td>
-        <select
+        {/* <select
           value={localVipLevel}
           onChange={(e) => {
             setLocalVipLevel(e.target.value);
@@ -40,7 +40,7 @@ const UserRow = ({ id, name, email, username, createdAt, vipLevel }) => {
           <option value="CasualUser">Fan Cứng</option>
           <option value="HardcoreUser">Thân Thiết</option>
           <option value="VIP">VIP</option>
-        </select>
+        </select> */}
       </td>
       <td>
         <button
