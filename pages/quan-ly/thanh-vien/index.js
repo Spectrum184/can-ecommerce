@@ -5,9 +5,6 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useDataUser } from 'hooks';
-import { deleteDataAPI } from 'utils/fetch-data';
-import { toastNotify } from 'utils/toast';
-import { useSWRConfig } from 'swr';
 
 const UserManager = () => {
   const router = useRouter();
@@ -15,7 +12,6 @@ const UserManager = () => {
   const [search, setSearch] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [username, setUsername] = useState('');
-  const { mutate } = useSWRConfig();
   const dataUser = useDataUser({
     username,
     limit: 20,
@@ -31,21 +27,6 @@ const UserManager = () => {
 
     setUsername(search);
   };
-
-  const deleteUser = async (user) => {
-    if (confirm('Chắc chắn xoá?')) {
-      const res = await deleteDataAPI(`user/${user._id}`);
-
-      toastNotify(res);
-
-      if (res.message)
-        mutate(
-          `user/find-user?username=${username}$limit=20&page=${currentPage}`
-        );
-    }
-  };
-
-  console.log(dataUser);
 
   return (
     <div className="mt-3">
@@ -86,7 +67,7 @@ const UserManager = () => {
           <tbody>
             {dataUser?.users?.length > 0 &&
               dataUser?.users.map((user) => (
-                <UserRow key={user._id} {...user} />
+                <UserRow key={user._id} {...user} page={currentPage} />
               ))}
           </tbody>
         </table>

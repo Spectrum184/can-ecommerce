@@ -1,22 +1,33 @@
 import Link from 'next/link';
+import { patchDataAPI, deleteDataAPI } from 'utils/fetch-data';
+import { toastNotify } from 'utils/toast';
+import { useSWRConfig } from 'swr';
 
 import { useState } from 'react';
 
-const UserRow = ({ vipLevel, _id, username, name, email, createdAt }) => {
+const UserRow = ({ vipLevel, _id, username, name, email, createdAt, page }) => {
+  const { mutate } = useSWRConfig();
   const [localVipLevel, setLocalVipLevel] = useState(vipLevel ?? 'CasualUser');
 
-  const updateVipLevel = async (user, vipLevel) => {
+  const updateVipLevel = async (userID, newVipLevel) => {
     if (confirm('Ok?')) {
-      const res = await patchDataAPI(`user/vipLevel?id=${user._id}`, {
-        vipLevel: vipLevel,
+      const res = await patchDataAPI(`user/vipLevel?id=${userID}`, {
+        vipLevel: newVipLevel,
       });
 
       toastNotify(res);
-
       if (res.message)
-        mutate(
-          `user/find-user?username=${username}$limit=20&page=${currentPage}`
-        );
+        mutate(`user/find-user?username=${username}$limit=20&page=${page}`);
+    }
+  };
+
+  const deleteUser = async (userID) => {
+    if (confirm('Chắc chắn xoá?')) {
+      const res = await deleteDataAPI(`user/${userID}`);
+
+      toastNotify(res);
+      if (res.message)
+        mutate(`user/find-user?username=${username}$limit=20&page=${page}`);
     }
   };
 
@@ -35,7 +46,7 @@ const UserRow = ({ vipLevel, _id, username, name, email, createdAt }) => {
           value={localVipLevel}
           onChange={(e) => {
             setLocalVipLevel(e.target.value);
-            updateVipLevel(user, e.target.value);
+            updateVipLevel(_id, e.target.value);
           }}
         >
           <option value="CasualUser">Fan Cứng</option>
@@ -45,7 +56,7 @@ const UserRow = ({ vipLevel, _id, username, name, email, createdAt }) => {
       </td>
       <td>
         <button
-          onClick={() => deleteUser(user)}
+          onClick={() => deleteUser(_id)}
           className="py-2 px-4 ml-2 text-white rounded-lg bg-red-500 block md:inline-block"
         >
           Xoá
